@@ -80,6 +80,44 @@ function HrIllustration() {
   );
 }
 
+function getCurrentLocation() {
+  return new Promise((resolve, reject) => {
+    if (!navigator.geolocation) {
+      reject(new Error("Your browser does not support location access."));
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        resolve({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        });
+      },
+      (error) => {
+        if (error.code === error.PERMISSION_DENIED) {
+          reject(
+            new Error("Please allow location access to sign in.")
+          );
+        } else if (error.code === error.TIMEOUT) {
+          reject(
+            new Error("Location request timed out. Please try again.")
+          );
+        } else {
+          reject(
+            new Error("Unable to get your location. Please try again.")
+          );
+        }
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 15000,
+        maximumAge: 0,
+      }
+    );
+  });
+}
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -106,15 +144,22 @@ const handleSubmit = async (event) => {
   setIsSubmitting(true);
 
   try {
+    // Get the current browser location.
+    const location = await getCurrentLocation();
+
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_URL}/api/auth/login`,
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           email: email.trim().toLowerCase(),
           password,
           rememberMe,
+          latitude: location.latitude,
+          longitude: location.longitude,
         }),
       }
     );
@@ -137,13 +182,17 @@ const handleSubmit = async (event) => {
     sessionStorage.removeItem("hrmUser");
 
     const storage = rememberMe ? localStorage : sessionStorage;
+
     storage.setItem("hrmToken", data.token);
     storage.setItem("hrmUser", JSON.stringify(data.user));
 
     navigate("/dashboard", { replace: true });
   } catch (error) {
     console.error("Login error:", error);
-    setMessage("Unable to connect to the HRM server. Please try again.");
+    setMessage(
+      error.message ||
+        "Unable to connect to the HRM server. Please try again."
+    );
   } finally {
     setIsSubmitting(false);
   }

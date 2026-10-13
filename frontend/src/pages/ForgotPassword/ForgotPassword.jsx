@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
   ArrowRight,
   Mail,
   ShieldCheck,
-  Users,
   LockKeyhole,
   Eye,
   EyeOff,
@@ -16,75 +16,6 @@ import "./ForgotPassword.css";
 import logo from "../../assets/crystree-solutions-logo.webp";
 
 const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api/auth`;
-
-function HrIllustration() {
-  return (
-    <div className="hr-illustration" aria-hidden="true">
-      <div className="illustration-orbit illustration-orbit-one" />
-      <div className="illustration-orbit illustration-orbit-two" />
-
-      <div className="dashboard-illustration">
-        <div className="dashboard-header">
-          <span />
-          <span />
-          <span />
-          <p>PEOPLE OVERVIEW</p>
-        </div>
-
-        <div className="dashboard-content">
-          {["A", "R", "M"].map((person, index) => (
-            <div className="employee-card" key={person}>
-              <div
-                className={`employee-avatar ${
-                  ["avatar-gold", "avatar-green", "avatar-blue"][index]
-                }`}
-              >
-                {person}
-              </div>
-
-              <div className="employee-lines">
-                <i />
-                <i />
-              </div>
-
-              <small>Team member</small>
-            </div>
-          ))}
-
-          <div className="growth-chart">
-            <p>Workforce growth</p>
-            <div className="chart-bars">
-              {Array.from({ length: 7 }, (_, index) => (
-                <i key={index} />
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="attendance-card">
-        <ShieldCheck size={20} />
-        <div>
-          <b>98.4%</b>
-          <small>Attendance</small>
-        </div>
-      </div>
-
-      <div className="people-card">
-        <Users size={20} />
-        <div>
-          <b>People first</b>
-          <small>Every day, together</small>
-        </div>
-      </div>
-
-      <div className="calendar-card">
-        <span>OCTOBER</span>
-        <b>13</b>
-      </div>
-    </div>
-  );
-}
 
 export default function ForgotPassword() {
   const navigate = useNavigate();
@@ -102,20 +33,89 @@ export default function ForgotPassword() {
   const [message, setMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const otpInputRefs = useRef([]);
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
-    const timer = window.setInterval(() => setCurrentTime(new Date()), 1000);
+    const timer = window.setInterval(
+      () => setCurrentTime(new Date()),
+      1000
+    );
 
     return () => window.clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    if (step === "otp") {
+      otpInputRefs.current[0]?.focus();
+    }
+  }, [step]);
 
   const showFeedback = (text, success = false) => {
     setMessage(text);
     setIsSuccess(success);
   };
 
-  // STEP 1: Send OTP to the registered email.
+  // OTP BOX HANDLERS
+  const handleOtpChange = (index, value) => {
+    const digits = value.replace(/\D/g, "");
+
+    if (digits.length > 1) {
+      const pastedOtp = digits.slice(0, 6);
+
+      setOtp(pastedOtp);
+
+      const nextIndex = Math.min(pastedOtp.length, 5);
+      otpInputRefs.current[nextIndex]?.focus();
+      return;
+    }
+
+    const digitsArray = otp.split("");
+    digitsArray[index] = digits;
+
+    const updatedOtp = digitsArray.join("").slice(0, 6);
+    setOtp(updatedOtp);
+
+    if (digits && index < 5) {
+      otpInputRefs.current[index + 1]?.focus();
+    }
+  };
+
+  const handleOtpKeyDown = (index, event) => {
+    if (
+      event.key === "Backspace" &&
+      !otp[index] &&
+      index > 0
+    ) {
+      otpInputRefs.current[index - 1]?.focus();
+    }
+
+    if (event.key === "ArrowLeft" && index > 0) {
+      otpInputRefs.current[index - 1]?.focus();
+    }
+
+    if (event.key === "ArrowRight" && index < 5) {
+      otpInputRefs.current[index + 1]?.focus();
+    }
+  };
+
+  const handleOtpPaste = (event) => {
+    const pastedOtp = event.clipboardData
+      .getData("text")
+      .replace(/\D/g, "")
+      .slice(0, 6);
+
+    if (pastedOtp) {
+      event.preventDefault();
+      setOtp(pastedOtp);
+
+      const nextIndex = Math.min(pastedOtp.length, 5);
+      otpInputRefs.current[nextIndex]?.focus();
+    }
+  };
+
+  // STEP 1: SEND OTP
   const handleSendOtp = async (event) => {
     event.preventDefault();
     setMessage("");
@@ -131,31 +131,48 @@ export default function ForgotPassword() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/forgot-password`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: normalizedEmail }),
-      });
+      const response = await fetch(
+        `${API_URL}/forgot-password`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: normalizedEmail,
+          }),
+        }
+      );
 
       const data = await response.json();
 
       if (!response.ok || !data.success) {
-        showFeedback(data.message || "Unable to send the verification OTP.");
+        showFeedback(
+          data.message || "Unable to send the verification OTP."
+        );
         return;
       }
 
       setEmail(normalizedEmail);
+      setOtp("");
       setStep("otp");
-      showFeedback(data.message || "OTP sent to your registered email.", true);
+
+      showFeedback(
+        data.message || "OTP sent to your registered email.",
+        true
+      );
     } catch (error) {
       console.error("Send OTP error:", error);
-      showFeedback("Unable to connect to the server. Please try again.");
+
+      showFeedback(
+        "Unable to connect to the server. Please try again."
+      );
     } finally {
       setLoading(false);
     }
   };
 
-  // STEP 2: Verify the six-digit OTP.
+  // STEP 2: VERIFY OTP
   const handleVerifyOtp = async (event) => {
     event.preventDefault();
     setMessage("");
@@ -169,14 +186,19 @@ export default function ForgotPassword() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/verify-reset-otp`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: email.trim().toLowerCase(),
-          otp,
-        }),
-      });
+      const response = await fetch(
+        `${API_URL}/verify-reset-otp`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email.trim().toLowerCase(),
+            otp,
+          }),
+        }
+      );
 
       const data = await response.json();
 
@@ -187,25 +209,27 @@ export default function ForgotPassword() {
 
       setResetToken(data.resetToken);
       setStep("password");
-      showFeedback("Email verified successfully. Set your new password.", true);
+
+      showFeedback(
+        "Email verified successfully. Set your new password.",
+        true
+      );
     } catch (error) {
       console.error("Verify OTP error:", error);
-      showFeedback("Unable to connect to the server. Please try again.");
+
+      showFeedback(
+        "Unable to connect to the server. Please try again."
+      );
     } finally {
       setLoading(false);
     }
   };
 
-  // STEP 3: Validate and update the password.
+  // STEP 3: SET NEW PASSWORD
   const handleSetPassword = async (event) => {
     event.preventDefault();
     setMessage("");
     setIsSuccess(false);
-
-    if (!password) {
-      showFeedback("Please enter a new password.");
-      return;
-    }
 
     if (password.length < 6) {
       showFeedback("Password must be at least 6 characters long.");
@@ -213,12 +237,16 @@ export default function ForgotPassword() {
     }
 
     if (!/[A-Z]/.test(password)) {
-      showFeedback("Password must contain at least one uppercase letter.");
+      showFeedback(
+        "Password must contain at least one uppercase letter."
+      );
       return;
     }
 
     if (!/[a-z]/.test(password)) {
-      showFeedback("Password must contain at least one lowercase letter.");
+      showFeedback(
+        "Password must contain at least one lowercase letter."
+      );
       return;
     }
 
@@ -228,7 +256,9 @@ export default function ForgotPassword() {
     }
 
     if (!/[^A-Za-z0-9]/.test(password)) {
-      showFeedback("Password must contain at least one special character.");
+      showFeedback(
+        "Password must contain at least one special character."
+      );
       return;
     }
 
@@ -244,8 +274,9 @@ export default function ForgotPassword() {
 
     if (!resetToken) {
       showFeedback(
-        "Your verification has expired. Please verify your OTP again.",
+        "Your verification has expired. Please verify your OTP again."
       );
+      setOtp("");
       setStep("otp");
       return;
     }
@@ -253,25 +284,33 @@ export default function ForgotPassword() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/reset-password`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          resetToken,
-          password,
-        }),
-      });
+      const response = await fetch(
+        `${API_URL}/reset-password`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            resetToken,
+            password,
+          }),
+        }
+      );
 
       const data = await response.json();
 
       if (!response.ok || !data.success) {
-        showFeedback(data.message || "Unable to reset your password.");
+        showFeedback(
+          data.message || "Unable to reset your password."
+        );
         return;
       }
 
-      showFeedback("Password updated successfully. You can now sign in.", true);
+      showFeedback(
+        "Password updated successfully. You can now sign in.",
+        true
+      );
 
       setPassword("");
       setConfirmPassword("");
@@ -283,7 +322,10 @@ export default function ForgotPassword() {
       }, 1800);
     } catch (error) {
       console.error("Reset password error:", error);
-      showFeedback("Unable to connect to the server. Please try again.");
+
+      showFeedback(
+        "Unable to connect to the server. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -329,6 +371,7 @@ export default function ForgotPassword() {
   return (
     <main className="login-page">
       {/* LEFT PANEL */}
+        {/* <HrIllustration /> */}
       <section className="login-welcome">
         <div className="welcome-brand">
           <span className="brand-symbol">
@@ -342,10 +385,10 @@ export default function ForgotPassword() {
           </span>
         </div>
 
-        <HrIllustration />
-
         <div className="welcome-content">
-          <span className="welcome-eyebrow">PEOPLE. PURPOSE. PROGRESS.</span>
+          <span className="welcome-eyebrow">
+            PEOPLE. PURPOSE. PROGRESS.
+          </span>
 
           <h1>
             Great people.
@@ -354,8 +397,8 @@ export default function ForgotPassword() {
           </h1>
 
           <p>
-            A thoughtful workspace for your people, processes, and progress —
-            all in one place.
+            A thoughtful workspace for your people, processes,
+            and progress — all in one place.
           </p>
 
           <div className="welcome-trust">
@@ -369,7 +412,10 @@ export default function ForgotPassword() {
       <section className="login-form-panel">
         <div className="login-container">
           <div className="login-logo">
-            <img src={logo} alt="Crystree Solutions Private Limited" />
+            <img
+              src={logo}
+              alt="Crystree Solutions Private Limited"
+            />
           </div>
 
           {/* STEP 1: EMAIL */}
@@ -379,8 +425,8 @@ export default function ForgotPassword() {
                 <span>ACCOUNT RECOVERY · STEP 1 OF 3</span>
                 <h2>Forgot your password?</h2>
                 <p>
-                  Enter your registered work email to receive a verification
-                  code.
+                  Enter your registered work email to receive a
+                  verification code.
                 </p>
               </div>
 
@@ -419,14 +465,16 @@ export default function ForgotPassword() {
                   className="login-submit"
                   disabled={loading}
                 >
-                  <span>{loading ? "Sending OTP..." : "Send OTP"}</span>
+                  <span>
+                    {loading ? "Sending OTP..." : "Send OTP"}
+                  </span>
                   <ArrowRight size={19} />
                 </button>
               </form>
             </>
           )}
 
-          {/* STEP 2: OTP */}
+          {/* STEP 2: SIX-BOX OTP */}
           {step === "otp" && (
             <>
               <div className="login-heading">
@@ -439,27 +487,41 @@ export default function ForgotPassword() {
               </div>
 
               <form onSubmit={handleVerifyOtp}>
-                <label className="field-label" htmlFor="reset-otp">
+                <label className="field-label">
                   Verification code
                 </label>
 
-                <div className="login-input">
-                  <ShieldCheck size={18} aria-hidden="true" />
-
-                  <input
-                    id="reset-otp"
-                    type="text"
-                    inputMode="numeric"
-                    pattern="[0-9]{6}"
-                    maxLength={6}
-                    placeholder="Enter 6-digit OTP"
-                    value={otp}
-                    onChange={(event) =>
-                      setOtp(event.target.value.replace(/\D/g, ""))
-                    }
-                    autoComplete="one-time-code"
-                    required
-                  />
+                <div
+                  className="otp-boxes"
+                  role="group"
+                  aria-label="Six-digit verification code"
+                >
+                  {Array.from({ length: 6 }, (_, index) => (
+                    <input
+                      key={index}
+                      ref={(element) => {
+                        otpInputRefs.current[index] = element;
+                      }}
+                      className="otp-box"
+                      type="text"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      maxLength={6}
+                      aria-label={`OTP digit ${index + 1}`}
+                      autoComplete={
+                        index === 0 ? "one-time-code" : "off"
+                      }
+                      value={otp[index] || ""}
+                      onChange={(event) =>
+                        handleOtpChange(index, event.target.value)
+                      }
+                      onKeyDown={(event) =>
+                        handleOtpKeyDown(index, event)
+                      }
+                      onPaste={handleOtpPaste}
+                      required
+                    />
+                  ))}
                 </div>
 
                 {message && (
@@ -478,7 +540,9 @@ export default function ForgotPassword() {
                   className="login-submit"
                   disabled={loading}
                 >
-                  <span>{loading ? "Verifying..." : "Verify OTP"}</span>
+                  <span>
+                    {loading ? "Verifying..." : "Verify OTP"}
+                  </span>
                   <ArrowRight size={19} />
                 </button>
               </form>
@@ -492,8 +556,8 @@ export default function ForgotPassword() {
                 <span>NEW PASSWORD · STEP 3 OF 3</span>
                 <h2>Set a new password</h2>
                 <p>
-                  Your email is verified. Choose a new password for your HRM
-                  account.
+                  Your email is verified. Choose a new password
+                  for your HRM account.
                 </p>
               </div>
 
@@ -519,12 +583,18 @@ export default function ForgotPassword() {
                   <button
                     type="button"
                     className="password-toggle"
-                    onClick={() => setShowPassword((value) => !value)}
+                    onClick={() =>
+                      setShowPassword((value) => !value)
+                    }
                     aria-label={
                       showPassword ? "Hide password" : "Show password"
                     }
                   >
-                    {showPassword ? <EyeOff size={19} /> : <Eye size={19} />}
+                    {showPassword ? (
+                      <EyeOff size={19} />
+                    ) : (
+                      <Eye size={19} />
+                    )}
                   </button>
                 </div>
 
@@ -540,9 +610,13 @@ export default function ForgotPassword() {
 
                   <input
                     id="confirm-password"
-                    type={showConfirmPassword ? "text" : "password"}
+                    type={
+                      showConfirmPassword ? "text" : "password"
+                    }
                     value={confirmPassword}
-                    onChange={(event) => setConfirmPassword(event.target.value)}
+                    onChange={(event) =>
+                      setConfirmPassword(event.target.value)
+                    }
                     placeholder="Re-enter your password"
                     autoComplete="new-password"
                     minLength={6}
@@ -552,7 +626,9 @@ export default function ForgotPassword() {
                   <button
                     type="button"
                     className="password-toggle"
-                    onClick={() => setShowConfirmPassword((value) => !value)}
+                    onClick={() =>
+                      setShowConfirmPassword((value) => !value)
+                    }
                     aria-label={
                       showConfirmPassword
                         ? "Hide confirm password"
@@ -621,7 +697,9 @@ export default function ForgotPassword() {
 
         <div className="site-footer-details">
           <div className="site-footer-developer">
-            <span className="site-footer-developed-label">Developed by</span>
+            <span className="site-footer-developed-label">
+              Developed by
+            </span>
 
             <a
               className="site-footer-logo-link"

@@ -5,6 +5,27 @@ const crypto = require("crypto");
 const authModel = require("../models/authModel");
 const mailTransporter = require("../config/mailTransporter");
 
+
+function calculateDistanceMeters(lat1, lon1, lat2, lon2) {
+  const toRadians = (degrees) => (degrees * Math.PI) / 180;
+  const earthRadiusMeters = 6371000;
+
+  const latitudeDifference = toRadians(lat2 - lat1);
+  const longitudeDifference = toRadians(lon2 - lon1);
+
+  const a =
+    Math.sin(latitudeDifference / 2) ** 2 +
+    Math.cos(toRadians(lat1)) *
+      Math.cos(toRadians(lat2)) *
+      Math.sin(longitudeDifference / 2) ** 2;
+
+  return (
+    2 *
+    earthRadiusMeters *
+    Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+  );
+}
+
 // =====================================================
 // GENERATE AUTHENTICATION TOKEN
 // =====================================================
@@ -35,7 +56,13 @@ function generateAuthenticationToken(user, rememberMe) {
 
 async function loginAdmin(req, res) {
   try {
-    const { email, password, rememberMe = false } = req.body || {};
+    const {
+      email,
+      password,
+      rememberMe = false,
+      latitude,
+      longitude,
+    } = req.body || {};
 
     if (
       typeof email !== "string" ||
@@ -49,7 +76,10 @@ async function loginAdmin(req, res) {
       });
     }
 
-    const user = await authModel.findUserByEmail(email.trim().toLowerCase());
+    // Validate credentials first.
+    const user = await authModel.findUserByEmail(
+      email.trim().toLowerCase()
+    );
 
     if (!user || !(await bcrypt.compare(password, user.password_hash))) {
       return res.status(401).json({
@@ -65,10 +95,70 @@ async function loginAdmin(req, res) {
       });
     }
 
+    // Read the office geofence configuration from backend/.env.
+    const officeLatitude = Number(process.env.GEOFENCE_LATITUDE);
+    const officeLongitude = Number(process.env.GEOFENCE_LONGITUDE);
+    const allowedRadius = Number(process.env.GEOFENCE_RADIUS_METERS);
+
+    if (
+      process.env.GEOFENCE_LATITUDE === undefined ||
+      process.env.GEOFENCE_LONGITUDE === undefined ||
+      process.env.GEOFENCE_RADIUS_METERS === undefined ||
+      !Number.isFinite(officeLatitude) ||
+      officeLatitude < -90 ||
+      officeLatitude > 90 ||
+      !Number.isFinite(officeLongitude) ||
+      officeLongitude < -180 ||
+      officeLongitude > 180 ||
+      !Number.isFinite(allowedRadius) ||
+      allowedRadius <= 0
+    ) {
+      console.error("Geofence configuration is invalid.");
+
+      return res.status(500).json({
+        success: false,
+        message: "Office location is not configured correctly.",
+      });
+    }
+
+    // Never issue a JWT if coordinates are missing or invalid.
+    if (
+      latitude === undefined ||
+      longitude === undefined ||
+      typeof latitude !== "number" ||
+      typeof longitude !== "number" ||
+      !Number.isFinite(latitude) ||
+      !Number.isFinite(longitude) ||
+      latitude < -90 ||
+      latitude > 90 ||
+      longitude < -180 ||
+      longitude > 180
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Please enable location access to sign in.",
+      });
+    }
+
+    const distance = calculateDistanceMeters(
+      officeLatitude,
+      officeLongitude,
+      latitude,
+      longitude
+    );
+
+    if (distance > allowedRadius) {
+      return res.status(403).json({
+        success: false,
+        message: `Login allowed only within ${allowedRadius} metres of the office.`,
+      });
+    }
+
+    // Generate the JWT only after the geofence check passes.
     const shouldRemember = rememberMe === true;
     const authenticationToken = generateAuthenticationToken(
       user,
-      shouldRemember,
+      shouldRemember
     );
 
     return res.status(200).json({
