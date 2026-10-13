@@ -1,31 +1,30 @@
-
 const express = require("express");
 
 const {
   loginAdmin,
   verifyAdminAuthentication,
+  logoutAdmin,
+  forgotPassword,
+  verifyPasswordResetOtp,
+  resetPassword,
 } = require("../controllers/authController");
 
 const verifyToken = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-// =====================================================
-// ADMIN LOGIN
-// PUBLIC API
-// =====================================================
-
 router.post("/login", loginAdmin);
-
-// =====================================================
-// VERIFY ADMIN AUTHENTICATION
-// PROTECTED API
-// =====================================================
 
 router.get(
   "/verify-authentication",
   verifyToken,
   verifyAdminAuthentication
 );
+
+router.post("/logout", verifyToken, logoutAdmin);
+
+router.post("/forgot-password", forgotPassword);
+router.post("/verify-reset-otp", verifyPasswordResetOtp);
+router.post("/reset-password", resetPassword);
 
 module.exports = router;
