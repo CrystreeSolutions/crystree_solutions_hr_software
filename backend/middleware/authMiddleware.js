@@ -1,41 +1,44 @@
 
 const jwt = require("jsonwebtoken");
 
-const verifyToken = (req, res, next) => {
+function verifyToken(req, res, next) {
+  const authorizationHeader = req.headers.authorization;
+
+  if (
+    !authorizationHeader ||
+    !authorizationHeader.startsWith("Bearer ")
+  ) {
+    return res.status(401).json({
+      success: false,
+      message: "Authentication token is required.",
+    });
+  }
+
+  const authenticationToken =
+    authorizationHeader.split(" ")[1];
+
   try {
-    const authHeader = req.headers.authorization;
-
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({
-        success: false,
-        message: "Authentication token is required"
-      });
+    if (!process.env.JWT_SECRET) {
+      throw new Error("JWT_SECRET is not configured.");
     }
 
-    const token = authHeader.split(" ")[1];
+    const decodedToken = jwt.verify(
+      authenticationToken,
+      process.env.JWT_SECRET,
+      {
+        issuer: "crystree-hrm",
+      }
+    );
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    if (decoded.designation !== "Admin") {
-      return res.status(403).json({
-        success: false,
-        message: "Admin access only"
-      });
-    }
-
-    req.admin = {
-      id: decoded.adminId,
-      email: decoded.email,
-      designation: decoded.designation
-    };
+    req.user = decodedToken;
 
     next();
   } catch (error) {
     return res.status(401).json({
       success: false,
-      message: "Invalid or expired token"
+      message: "Invalid or expired authentication token.",
     });
   }
-};
+}
 
 module.exports = verifyToken;

@@ -57,7 +57,7 @@ const login = (req, res) => {
 const logout = (req, res) => {
   return res.status(200).json({
     success: true,
-    message: "Admin logout successful. Please remove the token on the client."
+    message: "Admin logged out successfully."
   });
 };
 
@@ -73,3 +73,6 @@ module.exports = {
   logout,
   getProfile
 };
+
+
+// Sathya Oct 13
