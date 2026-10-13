@@ -2,14 +2,19 @@
 const jwt = require("jsonwebtoken");
 const { validateAdmin } = require("../models/adminModel");
 
+
 const login = (req, res) => {
   try {
-    const { email, password } = req.body;
+    console.log("Content-Type:", req.headers["content-type"]);
+    console.log("Request body:", req.body);
+
+    const { email, password } = req.body || {};
 
     if (!email || !password) {
       return res.status(400).json({
         success: false,
-        message: "Email and password are required"
+        message: "Email and password are required",
+        receivedBody: req.body ?? null
       });
     }
 
@@ -47,6 +52,7 @@ const login = (req, res) => {
     });
   }
 };
+
 
 const logout = (req, res) => {
   return res.status(200).json({
