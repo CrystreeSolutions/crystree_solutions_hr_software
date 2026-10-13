@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -9,7 +10,6 @@ import {
   ShieldCheck,
   Users,
 } from "lucide-react";
-
 import "./Login.css";
 import logo from "../../assets/crystree-solutions-logo.webp";
 
@@ -28,43 +28,29 @@ function HrIllustration() {
         </div>
 
         <div className="dashboard-content">
-          <div className="employee-card">
-            <div className="employee-avatar avatar-gold">A</div>
-            <div className="employee-lines">
-              <i />
-              <i />
+          {["A", "R", "M"].map((person, index) => (
+            <div className="employee-card" key={person}>
+              <div
+                className={`employee-avatar ${
+                  ["avatar-gold", "avatar-green", "avatar-blue"][index]
+                }`}
+              >
+                {person}
+              </div>
+              <div className="employee-lines">
+                <i />
+                <i />
+              </div>
+              <small>Team member</small>
             </div>
-            <small>Team member</small>
-          </div>
-
-          <div className="employee-card">
-            <div className="employee-avatar avatar-green">R</div>
-            <div className="employee-lines">
-              <i />
-              <i />
-            </div>
-            <small>Team member</small>
-          </div>
-
-          <div className="employee-card">
-            <div className="employee-avatar avatar-blue">M</div>
-            <div className="employee-lines">
-              <i />
-              <i />
-            </div>
-            <small>Team member</small>
-          </div>
+          ))}
 
           <div className="growth-chart">
             <p>Workforce growth</p>
             <div className="chart-bars">
-              <i />
-              <i />
-              <i />
-              <i />
-              <i />
-              <i />
-              <i />
+              {Array.from({ length: 7 }, (_, index) => (
+                <i key={index} />
+              ))}
             </div>
           </div>
         </div>
@@ -94,6 +80,44 @@ function HrIllustration() {
   );
 }
 
+function getCurrentLocation() {
+  return new Promise((resolve, reject) => {
+    if (!navigator.geolocation) {
+      reject(new Error("Your browser does not support location access."));
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        resolve({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        });
+      },
+      (error) => {
+        if (error.code === error.PERMISSION_DENIED) {
+          reject(
+            new Error("Please allow location access to sign in.")
+          );
+        } else if (error.code === error.TIMEOUT) {
+          reject(
+            new Error("Location request timed out. Please try again.")
+          );
+        } else {
+          reject(
+            new Error("Unable to get your location. Please try again.")
+          );
+        }
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 15000,
+        maximumAge: 0,
+      }
+    );
+  });
+}
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -101,27 +125,30 @@ export default function Login() {
   const [rememberMe, setRememberMe] = useState(true);
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [currentTime, setCurrentTime] = useState(() => new Date());
+  const [currentTime, setCurrentTime] = useState(new Date());
+
   const navigate = useNavigate();
+
   useEffect(() => {
-    const timerId = window.setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
+    const timerId = window.setInterval(
+      () => setCurrentTime(new Date()),
+      1000
+    );
 
     return () => window.clearInterval(timerId);
   }, []);
 
-
-
 const handleSubmit = async (event) => {
   event.preventDefault();
-
   setMessage("");
   setIsSubmitting(true);
 
   try {
+    // Get the current browser location.
+    const location = await getCurrentLocation();
+
     const response = await fetch(
-      "http://localhost:5000/api/auth/login",
+      `${import.meta.env.VITE_BACKEND_URL}/api/auth/login`,
       {
         method: "POST",
         headers: {
@@ -131,59 +158,58 @@ const handleSubmit = async (event) => {
           email: email.trim().toLowerCase(),
           password,
           rememberMe,
+          latitude: location.latitude,
+          longitude: location.longitude,
         }),
       }
     );
 
-    const responseData = await response.json();
+    const data = await response.json();
 
-    if (!response.ok || !responseData.success) {
-      setMessage(
-        responseData.message || "Unable to sign in."
-      );
+    if (!response.ok || !data.success) {
+      setMessage(data.message || "Unable to sign in.");
       return;
     }
 
-    if (!responseData.token || !responseData.user) {
+    if (!data.token || !data.user) {
       setMessage("The server returned an invalid login response.");
       return;
     }
 
-    // Clear any previous authentication data
     localStorage.removeItem("hrmToken");
     localStorage.removeItem("hrmUser");
     sessionStorage.removeItem("hrmToken");
     sessionStorage.removeItem("hrmUser");
 
-    // Store the new authentication data
-    const storage = rememberMe
-      ? localStorage
-      : sessionStorage;
+    const storage = rememberMe ? localStorage : sessionStorage;
 
-    storage.setItem("hrmToken", responseData.token);
-    storage.setItem(
-      "hrmUser",
-      JSON.stringify(responseData.user)
-    );
+    storage.setItem("hrmToken", data.token);
+    storage.setItem("hrmUser", JSON.stringify(data.user));
 
-    // Navigate to the dashboard
     navigate("/dashboard", { replace: true });
   } catch (error) {
-    console.error("Administrator login failed:", error);
-
+    console.error("Login error:", error);
     setMessage(
-      "Unable to connect to the HRM server. Please try again."
+      error.message ||
+        "Unable to connect to the HRM server. Please try again."
     );
   } finally {
     setIsSubmitting(false);
   }
 };
 
+  const time = currentTime.toLocaleTimeString("en-IN", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+  }).toLowerCase();
 
-
-  const handleForgotPassword = () => {
-    setMessage("Please contact your HR administrator to reset your password.");
-  };
+  const date = currentTime.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
 
   return (
     <main className="login-page">
@@ -202,18 +228,18 @@ const handleSubmit = async (event) => {
         <HrIllustration />
 
         <div className="welcome-content">
-          <span className="welcome-eyebrow">PEOPLE. PURPOSE. PROGRESS.</span>
+          <span className="welcome-eyebrow">
+            PEOPLE. PURPOSE. PROGRESS.
+          </span>
           <h1>
             Great people.
             <br />
             <span>Greater possibilities.</span>
           </h1>
           <p>
-            A thoughtful workspace for your people, processes, and progress —
-            all in one place.
+            A thoughtful workspace for your people, processes, and progress
+            — all in one place.
           </p>
-
-
           <div className="welcome-trust">
             <ShieldCheck size={17} />
             <span>A more connected way to work together</span>
@@ -237,6 +263,7 @@ const handleSubmit = async (event) => {
             <label className="field-label" htmlFor="email">
               Work email
             </label>
+
             <div className="login-input">
               <Mail size={18} aria-hidden="true" />
               <input
@@ -257,7 +284,7 @@ const handleSubmit = async (event) => {
               <button
                 type="button"
                 className="forgot-password"
-                onClick={handleForgotPassword}
+                onClick={() => navigate("/forgot-password")}
               >
                 Forgot password?
               </button>
@@ -277,7 +304,7 @@ const handleSubmit = async (event) => {
               <button
                 type="button"
                 className="password-toggle"
-                onClick={() => setShowPassword((visible) => !visible)}
+                onClick={() => setShowPassword((value) => !value)}
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? <EyeOff size={19} /> : <Eye size={19} />}
@@ -300,7 +327,7 @@ const handleSubmit = async (event) => {
             </div>
 
             {message && (
-              <div className="login-message" role="status">
+              <div className="login-message" role="alert">
                 {message}
               </div>
             )}
@@ -310,7 +337,9 @@ const handleSubmit = async (event) => {
               className="login-submit"
               disabled={isSubmitting}
             >
-              <span>{isSubmitting ? "Signing in..." : "Sign in securely"}</span>
+              <span>
+                {isSubmitting ? "Signing in..." : "Sign in securely"}
+              </span>
               <ArrowRight size={19} />
             </button>
           </form>
@@ -346,32 +375,15 @@ const handleSubmit = async (event) => {
               href="https://crystreesolutions.com/"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Visit Crystree Solutions website"
             >
               <img src={logo} alt="Crystree Solutions" />
             </a>
           </div>
-
-          <span className="site-footer-divider" aria-hidden="true" />
-          <time className="site-footer-time" aria-label="Current local time">
-            {currentTime
-              .toLocaleTimeString("en-IN", {
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-                hour12: true,
-              })
-              .toLowerCase()}
-          </time>
-          <span className="site-footer-divider" aria-hidden="true" />
-          <time className="site-footer-date">
-            {currentTime.toLocaleDateString("en-GB", {
-              day: "2-digit",
-              month: "short",
-              year: "numeric",
-            })}
-          </time>
-          <span className="site-footer-divider" aria-hidden="true" />
+          <span className="site-footer-divider" />
+          <time className="site-footer-time">{time}</time>
+          <span className="site-footer-divider" />
+          <time className="site-footer-date">{date}</time>
+          <span className="site-footer-divider" />
           <span className="site-footer-version">v1.0</span>
         </div>
       </footer>

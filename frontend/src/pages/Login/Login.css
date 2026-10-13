@@ -1,1276 +1,4118 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap");
 
+
+
 :root {
+
   --royal-navy: #071c2c;
+
   --navy-light: #173750;
+
   --antique-gold: #c79b35;
+
   --gold-light: #e8c66b;
+
   --logo-green: #5c9c45;
+
   --text-dark: #17263a;
+
   --text-muted: #7d8795;
+
   --border-color: #e1e5ea;
+
   --login-footer-height: 64px;
+
 }
+
+
 
 .login-page,
+
 .login-page * {
+
   box-sizing: border-box;
+
 }
 
+
+
 .login-page {
+
   display: grid;
+
   grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+
   width: 100%;
+
   height: calc(100vh - var(--login-footer-height));
+
   height: calc(100svh - var(--login-footer-height));
+
   min-height: 0;
+
   margin: 0;
+
   padding: 0;
+
   overflow: clip;
+
   background: #fbfcfd;
+
   color: var(--text-dark);
+
   font-family: "DM Sans", Arial, sans-serif;
+
 }
+
+
 
 /* LEFT PANEL */
 
+
+
 .login-welcome {
+
   position: relative;
+
   isolation: isolate;
+
   display: flex;
+
   flex-direction: column;
+
   min-width: 0;
+
   min-height: calc(100vh - var(--login-footer-height));
+
   min-height: calc(100svh - var(--login-footer-height));
+
   padding: clamp(18px, 3.1vh, 34px) clamp(28px, 4.5vw, 76px) 18px;
+
   overflow: hidden;
+
   color: #fff;
+
   background: radial-gradient(ellipse at 45% 37%, #12334b 0%, var(--royal-navy) 58%);
+
 }
+
+
 
 .login-welcome::before,
+
 .login-welcome::after {
+
   position: absolute;
+
   z-index: -1;
+
   content: "";
+
   border: 1px solid rgba(199, 155, 53, 0.13);
+
   border-radius: 50%;
+
   pointer-events: none;
+
 }
+
+
 
 .login-welcome::before {
+
   top: -280px;
+
   left: -260px;
+
   width: 540px;
+
   height: 540px;
+
 }
+
+
 
 .login-welcome::after {
+
   right: -290px;
+
   bottom: -440px;
+
   width: 620px;
+
   height: 620px;
+
   border-color: rgba(255, 255, 255, 0.05);
+
 }
+
+
 
 .welcome-brand {
+
   z-index: 1;
+
   display: flex;
+
   flex-shrink: 0;
+
   align-items: center;
+
   gap: 12px;
+
   font-family: "Manrope", sans-serif;
+
   font-size: 12px;
+
   font-weight: 800;
+
   letter-spacing: 2px;
+
 }
+
+
 
 .welcome-brand b {
+
   color: var(--gold-light);
+
 }
+
+
 
 .brand-symbol {
+
   display: flex;
+
   align-items: center;
+
   gap: 3px;
+
   transform: skew(-25deg);
+
 }
+
+
 
 .brand-symbol i {
+
   display: block;
+
   width: 5px;
+
   height: 22px;
+
   border-radius: 4px;
+
   background: var(--antique-gold);
+
 }
+
+
 
 .brand-symbol i:nth-child(2) {
+
   height: 16px;
+
   background: var(--logo-green);
+
 }
 
+
+
 .brand-symbol i:nth-child(3) {
+
   height: 11px;
+
   background: var(--gold-light);
+
 }
+
+
 
 /* Illustration scales with available space */
 
+
+
 .hr-illustration {
+
   position: relative;
+
   width: min(100%, 470px);
+
   height: clamp(180px, 34vh, 300px);
+
   flex: 0 1 auto;
+
   margin: clamp(12px, 3.5vh, 38px) auto clamp(4px, 1.5vh, 18px);
+
 }
+
+
 
 .illustration-orbit {
+
   position: absolute;
+
   border: 1px solid rgba(199, 155, 53, 0.14);
+
   border-radius: 50%;
+
   pointer-events: none;
+
 }
+
+
 
 .illustration-orbit-one {
+
   top: 14%;
+
   left: 8%;
+
   width: 84%;
+
   height: 68%;
+
   transform: rotate(-22deg);
+
 }
+
+
 
 .illustration-orbit-two {
+
   top: 20%;
+
   left: 17%;
+
   width: 68%;
+
   height: 54%;
+
   border-color: rgba(255, 255, 255, 0.06);
+
   transform: rotate(18deg);
+
 }
+
+
 
 .dashboard-illustration {
+
   position: absolute;
+
   top: 13%;
+
   left: 50%;
+
   width: min(63%, 295px);
-  height: 68%;
+
+  height: 226px;
+
   overflow: hidden;
+
   transform: translateX(-50%) rotate(-3deg);
+
   border-radius: 11px;
+
   background: #f7f8fa;
+
   color: var(--text-dark);
+
   box-shadow: 0 20px 45px rgba(0, 0, 0, 0.22);
+
 }
+
+
 
 .dashboard-header {
+
   display: flex;
+
   align-items: center;
+
   gap: 5px;
+
   height: 17%;
+
   padding: 0 4%;
+
   border-bottom: 1px solid #e7e9ed;
+
 }
+
+
 
 .dashboard-header > span {
+
   width: 6px;
+
   height: 6px;
+
   flex: 0 0 6px;
+
   border-radius: 50%;
+
   background: var(--antique-gold);
+
 }
+
+
 
 .dashboard-header > span:nth-child(2) { background: #789a6d; }
+
 .dashboard-header > span:nth-child(3) { background: #b7c0cb; }
 
+
+
 .dashboard-header p {
+
   margin-left: auto;
+
   color: #7e8995;
+
   font-size: clamp(5px, 0.42vw, 7px);
+
   font-weight: 800;
+
   letter-spacing: 0.6px;
+
   white-space: nowrap;
+
 }
+
+
 
 .dashboard-content {
+
   display: grid;
+
   grid-template-columns: 1fr 1fr;
+
   gap: 5%;
+
   padding: 4%;
+
 }
+
+
 
 .employee-card {
+
   display: grid;
+
   grid-template-columns: 25px 1fr;
+
   align-items: center;
+
   gap: 4px 7px;
+
   min-width: 0;
+
   min-height: 48px;
+
   padding: 5px;
+
   border: 1px solid #edf0f3;
+
   border-radius: 7px;
+
   background: #fff;
+
 }
+
+
 
 .employee-avatar {
+
   display: grid;
+
   grid-row: 1 / 3;
+
   place-items: center;
+
   width: 25px;
+
   height: 25px;
+
   border-radius: 8px;
+
   color: #fff;
+
   font-size: 9px;
+
   font-weight: 800;
+
 }
+
+
 
 .avatar-gold { background: #ba9340; }
+
 .avatar-green { background: #71966a; }
+
 .avatar-blue { background: #3e6681; }
 
+
+
 .employee-lines i {
+
   display: block;
+
   width: min(43px, 100%);
+
   height: 4px;
+
   border-radius: 5px;
+
   background: #b8c2cc;
+
 }
+
+
 
 .employee-lines i + i {
+
   width: 65%;
+
   margin-top: 4px;
+
   background: #e0e5e9;
+
 }
+
+
 
 .employee-card small {
+
   grid-column: 1 / 3;
+
   color: #9aa4ae;
+
   font-size: 6px;
+
 }
+
+
 
 .growth-chart {
+
   grid-column: 1 / 3;
+
   height: 58px;
+
   padding: 7px 9px;
+
   border: 1px solid #edf0f3;
+
   border-radius: 7px;
+
   background: #fff;
+
 }
+
+
 
 .growth-chart p {
+
   margin: 0;
+
   color: #526174;
+
   font-size: 7px;
+
   font-weight: 800;
+
 }
+
+
 
 .chart-bars {
+
   display: flex;
+
   align-items: flex-end;
+
   gap: 8px;
+
   height: 32px;
+
   padding: 0 8px;
+
 }
+
+
 
 .chart-bars i {
+
   flex: 1;
+
   height: 32%;
+
   border-radius: 3px 3px 0 0;
+
   background: var(--antique-gold);
+
 }
+
+
 
 .chart-bars i:nth-child(2) { height: 47%; background: #78996b; }
+
 .chart-bars i:nth-child(3) { height: 39%; }
+
 .chart-bars i:nth-child(4) { height: 67%; background: #78996b; }
+
 .chart-bars i:nth-child(5) { height: 55%; }
+
 .chart-bars i:nth-child(6) { height: 83%; background: #78996b; }
+
 .chart-bars i:nth-child(7) { height: 100%; }
 
+
+
 .attendance-card,
+
 .people-card {
+
   position: absolute;
+
   z-index: 2;
+
   display: flex;
+
   align-items: center;
+
   gap: 9px;
+
   padding: 10px 12px;
+
   border-radius: 10px;
+
   background: #fff;
+
   color: var(--text-dark);
+
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+
 }
+
+
 
 .attendance-card {
+
   top: 9%;
+
   right: 2%;
+
 }
+
+
 
 .people-card {
+
   bottom: 8%;
+
   left: 0;
+
 }
+
+
 
 .attendance-card svg { color: #5e8c49; }
+
 .people-card svg { color: #a77d1f; }
 
+
+
 .attendance-card b,
+
 .people-card b {
+
   display: block;
+
   font-family: "Manrope", sans-serif;
+
   font-size: 11px;
+
 }
+
+
 
 .attendance-card small,
+
 .people-card small {
+
   display: block;
+
   margin-top: 3px;
+
   color: #87919d;
+
   font-size: 8px;
+
   white-space: nowrap;
+
 }
+
+
 
 .calendar-card {
+
   position: absolute;
+
   right: 2%;
+
   bottom: 8%;
+
   display: flex;
+
   flex-direction: column;
+
   align-items: center;
+
   justify-content: center;
+
   gap: 4px;
+
   width: 65px;
+
   height: 72px;
+
   border-radius: 10px;
+
   background: #fff;
+
   color: #b28b2e;
+
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+
 }
 
+
+
 .calendar-card span { font-size: 12px;
+
 }
+
 .calendar-card b {
+
   color: #1b3044;
+
   font-family: "Manrope", sans-serif;
+
   font-size: 23px;
+
 }
+
+
 
 /* Welcome message */
 
+
+
 .welcome-content {
+
   position: relative;
+
   z-index: 1;
+
   margin-top: auto;
+
   padding-bottom: clamp(10px, 2.6vh, 30px);
+
 }
+
+
 
 .welcome-eyebrow {
+
   display: inline-block;
+
   margin-bottom: clamp(7px, 1.5vh, 15px);
+
   color: var(--gold-light);
+
   font-family: "Manrope", sans-serif;
+
   font-size: clamp(9px, 0.75vw, 11px);
+
   font-weight: 800;
+
   letter-spacing: 2px;
+
 }
 
+
+
 .welcome-content h1 {
+
   margin: 0 0 clamp(8px, 1.7vh, 18px);
+
   color: #fbfcff;
+
   font-family: "Manrope", sans-serif;
+
   font-size: clamp(27px, 3.15vw, 50px);
+
   font-weight: 800;
+
   line-height: 1.17;
+
   letter-spacing: -1.5px;
+
 }
+
+
 
 .welcome-content h1 span { color: var(--gold-light); }
 
+
+
 .welcome-content > p {
+
   max-width: 470px;
+
   margin: 0;
+
   color: #c3ced7;
+
   font-size: 14px;
+
   line-height: 1.5;
+
 }
+
+
 
 .welcome-indicators {
+
   display: flex;
+
   align-items: center;
+
   gap: 10px;
+
   margin-top: clamp(12px, 2.5vh, 25px);
+
 }
+
+
 
 .welcome-indicators i {
+
   width: 22px;
+
   height: 2px;
+
   border-radius: 5px;
+
   background: #f3f4f5;
+
 }
 
+
+
 .welcome-indicators i:nth-child(2) {
+
   width: 40px;
+
   background: var(--antique-gold);
+
 }
+
+
 
 .welcome-indicators i:nth-child(3) { background: #7a8b9a; }
 
+
+
 .welcome-trust {
+
   display: flex;
+
   align-items: center;
+
   gap: 8px;
+
   margin-top: clamp(10px, 2vh, 22px);
+
   color: #aab9c6;
+
   font-size: 12px;
+
 }
+
+
 
 .welcome-trust svg { flex-shrink: 0; color: var(--gold-light); }
 
+
+
 .welcome-footer {
+
   position: relative;
+
   z-index: 1;
+
   flex-shrink: 0;
+
   padding-top: 10px;
+
   border-top: 1px solid rgba(255, 255, 255, 0.09);
+
   color: #7f93a3;
+
   font-size: 12px;
+
 }
+
+
 
 /* RIGHT LOGIN PANEL */
 
+
+
 .login-form-panel {
+
   display: flex;
+
   align-items: center;
+
   justify-content: center;
+
   min-width: 0;
+
   min-height: calc(100vh - var(--login-footer-height));
+
   min-height: calc(100svh - var(--login-footer-height));
+
   padding: clamp(18px, 3.5vh, 38px) clamp(26px, 4vw, 70px);
+
   background: #fbfcfd;
+
 }
+
+
 
 .login-container {
+
   width: 100%;
+
   max-width: 430px;
+
   margin: auto;
+
 }
+
+
 
 .login-logo {
+
   display: flex;
+
   align-items: center;
+
   justify-content: center;
+
   width: 100%;
+
   height: clamp(42px, 7vh, 75px);
+
   margin-bottom: clamp(18px, 4.5vh, 50px);
+
 }
 
+
+
 .login-logo img {
+
   display: block;
+
   width: min(100%, 240px);
+
   max-height: 100%;
+
   object-fit: contain;
+
   object-position: center;
+
   margin-inline: auto;
+
 }
+
+
 
 .login-heading { margin-bottom: clamp(17px, 3.5vh, 28px); }
 
+
+
 .login-heading > span {
+
   display: block;
+
   margin-bottom: 8px;
+
   color: #ad8428;
+
   font-family: "Manrope", sans-serif;
+
   font-size: 10px;
+
   font-weight: 800;
+
   letter-spacing: 2px;
+
 }
+
+
 
 .login-heading h2 {
+
   margin: 0;
+
   color: var(--text-dark);
+
   font-family: "Manrope", sans-serif;
+
   font-size: clamp(23px, 2.2vw, 31px);
+
   font-weight: 800;
+
   line-height: 1.22;
+
   letter-spacing: -0.8px;
+
 }
+
+
 
 .login-heading p {
+
   margin: 9px 0 0;
+
   color: var(--text-muted);
+
   font-size: 14px;
+
   line-height: 1.45;
+
 }
+
+
 
 .field-label {
+
   display: block;
+
   margin-bottom: 7px;
+
   color: #334155;
+
   font-size: 14px;
+
   font-weight: 700;
+
 }
+
+
 
 .login-input {
+
   display: flex;
+
   align-items: center;
+
   gap: 10px;
+
   width: 100%;
+
   height: clamp(42px, 6.2vh, 51px);
+
   padding: 0 12px;
+
   border: 1px solid #dce2e8;
+
   border-radius: 6px;
+
   background: #fff;
+
   transition: border-color 0.2s, box-shadow 0.2s;
+
+  margin-bottom:10px;
+
 }
+
+
 
 .login-input:focus-within {
+
   border-color: var(--antique-gold);
+
   box-shadow: 0 0 0 3px rgba(199, 155, 53, 0.11);
+
 }
+
+
 
 .login-input > svg {
+
   flex-shrink: 0;
+
   color: #8793a1;
+
 }
 
+
+
 .login-input input {
+
   width: 100%;
+
   min-width: 0;
+
   height: 100%;
+
   padding: 0;
+
   border: 0;
+
   outline: none;
+
   background: transparent;
+
   color: #1d2e43;
+
   font-family: inherit;
+
   font-size: 14px;
+
 }
+
+
 
 .login-input input::placeholder { color: #a5adb7; }
 
+
+
 .password-heading {
+
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
+
   gap: 10px;
+
   margin-top: clamp(12px, 2.5vh, 22px);
+
 }
+
+
 
 .forgot-password {
+
   flex-shrink: 0;
+
   padding: 0 0 7px;
+
   border: 0;
+
   background: transparent;
+
   color: #9a7525;
+
   font-size: 12px;
+
   font-weight: 700;
+
 }
+
+
 
 .forgot-password:hover {
+
   color: #715217;
+
   text-decoration: underline;
+
 }
 
+
+
 .password-toggle {
+
   display: grid;
+
   flex-shrink: 0;
+
   place-items: center;
+
   padding: 4px;
+
   border: 0;
+
   background: transparent;
+
   color: #7b8794;
+
 }
+
+
 
 .password-toggle:hover { color: var(--royal-navy); }
 
+
+
 .login-options {
+
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
+
   gap: 10px;
+
   margin: clamp(12px, 2.4vh, 18px) 0 clamp(14px, 2.8vh, 24px);
+
 }
+
+
 
 .remember-label {
+
   display: flex;
+
   align-items: center;
+
   gap: 8px;
+
   margin: 0;
+
   color: #677486;
+
   font-size: 11px;
+
   cursor: pointer;
+
 }
+
+
 
 .remember-label input {
+
   width: 15px;
+
   height: 15px;
+
   margin: 0;
+
   accent-color: var(--royal-navy);
+
 }
 
+
+
 .secure-label {
+
   display: flex;
+
   align-items: center;
+
   gap: 5px;
+
   color: #8a95a2;
+
   font-size: 10px;
+
   white-space: nowrap;
+
 }
+
+
 
 .secure-label svg { color: #6c9760; }
 
+
+
 .login-submit {
+
   display: flex;
+
   align-items: center;
+
   justify-content: center;
+
   gap: 12px;
+
   width: 100%;
+
   min-height: 44px;
+
   height: clamp(44px, 6.2vh, 51px);
+
   border: 1px solid var(--royal-navy);
+
   border-radius: 6px;
+
   background: linear-gradient(110deg, #0b2338, #173750);
+
   box-shadow: 0 7px 15px rgba(7, 28, 44, 0.12);
+
   color: #fff;
+
   font-family: "Manrope", sans-serif;
+
   font-size: 13px;
+
   font-weight: 800;
+
   transition: transform 0.2s, box-shadow 0.2s;
+
 }
+
+
 
 .login-submit svg { color: var(--gold-light); }
 
+
+
 .login-submit:hover {
+
   transform: translateY(-1px);
+
   box-shadow: 0 10px 20px rgba(7, 28, 44, 0.18);
+
 }
+
+
 
 .login-message {
+
   margin: 0 0 13px;
+
   padding: 9px 11px;
+
   border: 1px solid #d6e5ee;
+
   border-radius: 5px;
+
   background: #edf4f8;
+
   color: #294b65;
+
   font-size: 11px;
+
   line-height: 1.45;
+
 }
+
+
 
 .login-footer {
+
   margin-top: clamp(18px, 3.4vh, 29px);
+
   padding-top: clamp(12px, 2vh, 17px);
+
   border-top: 1px solid #e9ecef;
+
   color: #8a95a1;
+
   font-size: 12px;
+
   text-align: center;
+
 }
+
+
 
 .login-footer p { margin: 0; }
+
 .login-footer p b { color: #35465a; }
 
+
+
 .footer-links {
+
   display: flex;
+
   justify-content: center;
+
   align-items: center;
+
   gap: 11px;
+
   margin-top: 12px;
+
   color: #a1aab4;
+
   font-size: 12px;
+
 }
+
+
 
 .footer-links i {
+
   width: 3px;
+
   height: 3px;
+
   border-radius: 50%;
+
   background: var(--antique-gold);
+
 }
+
+
 
 /* Short desktop/laptop displays, including 1265 x 551 */
+
 @media (min-width: 821px) and (max-height: 650px) {
+
   .login-welcome {
+
     padding-top: 13px;
+
     padding-bottom: 10px;
+
   }
+
+
 
   .hr-illustration {
+
     height: clamp(135px, 26vh, 175px);
+
     margin-top: 8px;
+
     margin-bottom: 3px;
+
   }
+
+
 
   .dashboard-illustration {
+
     height: 75%;
+
   }
+
+
 
   .welcome-content {
+
     padding-bottom: 8px;
+
   }
+
+
 
   .welcome-eyebrow {
+
     margin-bottom: 6px;
+
     font-size: 12px;
+
 }
+
+
 
   .welcome-content h1 {
+
     margin-bottom: 7px;
+
     font-size: clamp(25px, 2.6vw, 35px);
+
     line-height: 1.12;
+
   }
+
+
 
   .welcome-content > p {
+
     font-size: 14px;
+
     line-height: 1.35;
+
   }
+
+
 
   .welcome-indicators { margin-top: 9px; }
+
   .welcome-trust { margin-top: 8px; font-size: 10px; }
+
   .welcome-footer { padding-top: 7px; font-size: 12px;
+
 }
 
+
+
   .login-form-panel {
+
     padding-top: 10px;
+
     padding-bottom: 10px;
+
   }
 
+
+
   .login-logo {
+
     height: 34px;
+
     margin-bottom: 12px;
+
   }
+
+
 
   .login-logo img { width: 190px; }
 
+
+
   .login-heading { margin-bottom: 12px; }
+
   .login-heading > span { margin-bottom: 5px; font-size: 12px;
+
 }
+
   .login-heading h2 { font-size: clamp(21px, 1.9vw, 25px); }
+
   .login-heading p {
+
     margin-top: 5px;
+
     font-size: 14px; }
+
+
 
   .field-label {
+
     margin-bottom: 4px;
+
     font-size: 14px; }
-  .login-input { height: 37px; }
+
+  .login-input { height: 37px; margin-bottom: 10px; }
+
   .login-input input {
+
     font-size: 14px; }
+
   .password-heading { margin-top: 10px; }
+
   .forgot-password { padding-bottom: 5px; font-size: 10px; }
+
   .login-options { margin: 9px 0 11px; }
+
   .remember-label {
+
     font-size: 12px; }
+
   .secure-label { font-size: 12px;
+
 }
+
   .login-submit {
+
     height: 39px;
+
     min-height: 39px;
+
     font-size: 14px; }
+
   .login-footer { margin-top: 13px; padding-top: 9px; font-size: 12px;
+
 }
+
   .footer-links { margin-top: 7px; font-size: 12px;
+
 }
+
 }
+
+
 
 /* Wider desktop displays */
+
 @media (min-width: 1400px) {
+
   .login-welcome {
+
     padding-right: clamp(55px, 5vw, 95px);
+
     padding-left: clamp(55px, 5vw, 95px);
+
   }
+
+
 
   .login-form-panel {
+
     padding-right: clamp(45px, 5vw, 85px);
+
     padding-left: clamp(45px, 5vw, 85px);
+
   }
 
+
+
   .hr-illustration {
+
     height: clamp(220px, 35vh, 320px);
+
   }
+
 }
 
+
+
 /* Mobile and tablet: stacked panels */
+
 @media (max-width: 820px) {
+
   .login-page {
+
     display: flex;
+
     flex-direction: column;
+
     width: 100%;
+
     height: auto;
+
     min-height: 0;
+
     padding-bottom: var(--login-footer-height);
+
     overflow: visible;
+
   }
+
+
 
   .login-welcome {
+
     width: 100%;
+
     min-height: auto;
+
     padding: 22px 24px 24px;
+
   }
+
+
 
   .hr-illustration {
+
     width: min(100%, 430px);
+
     height: 220px;
+
     margin: 14px auto 0;
+
   }
+
+
 
   .welcome-content {
+
     margin-top: 0;
+
     padding-bottom: 20px;
+
   }
 
+
+
   .welcome-content h1 {
+
     font-size: clamp(30px, 6vw, 43px);
+
   }
+
+
 
   .welcome-footer { display: none; }
 
+
+
   .login-form-panel {
+
     width: 100%;
+
     min-height: auto;
+
     padding: 30px 24px;
+
   }
+
+
 
   .login-container { max-width: 460px; }
 
+
+
   .login-logo {
+
     height: 52px;
+
     margin-bottom: 22px;
+
   }
 
+
+
   .login-logo img { width: 210px; }
+
 }
 
+
+
 /* Small mobile */
+
 @media (max-width: 430px) {
+
   .login-welcome { padding: 20px 19px 22px; }
+
   .welcome-brand { font-size: 10px; }
+
   .hr-illustration { height: 190px; }
+
   .attendance-card,
+
   .people-card { padding: 8px 9px; }
+
   .attendance-card b,
+
   .people-card b { font-size: 10px; }
+
   .calendar-card { width: 54px; height: 62px; }
+
   .welcome-content h1 { font-size: 29px; letter-spacing: -0.8px; }
+
   .login-form-panel { padding: 25px 19px; }
+
   .login-heading h2 { font-size: 24px; }
+
   .login-options { align-items: center; }
+
+}
+
+
+
+
+
+/* =========================================================
+
+   CRYSTREE HRM TYPOGRAPHY STANDARD
+
+   Keep DM Sans / Manrope and the existing navy-gold identity.
+
+   Paragraphs and normal content text never fall below 14px.
+
+   ========================================================= */
+
+
+
+.login-page {
+
+  font-family: "DM Sans", Arial, sans-serif;
+
+}
+
+
+
+.login-page p {
+
+  font-size: 10px;
+
+}
+
+
+
+.login-heading p,
+
+.welcome-content > p {
+
+  font-size: 14px;
+
+  line-height: 1.45;
+
+}
+
+
+
+.field-label {
+
+  font-size: 14px;
+
+  line-height: 1.35;
+
+}
+
+
+
+.login-input input,
+
+.login-submit {
+
+  font-size: 14px;
+
+}
+
+
+
+.login-footer {
+
+  font-size: 12px;
+
+  line-height: 1.45;
+
+}
+
+
+
+.footer-links {
+
+  font-size: 12px;
+
+}
+
+
+
+/* Fit the 551px-high team laptop while retaining readable paragraph text. */
+
+@media (min-width: 821px) and (max-height: 650px) {
+
+  .hr-illustration {
+
+    height: clamp(112px, 22vh, 145px);
+
+    margin-top: 5px;
+
+    margin-bottom: 0;
+
+  }
+
+
+
+  .welcome-content {
+
+    padding-bottom: 5px;
+
+  }
+
+
+
+  .welcome-content h1 {
+
+    font-size: clamp(25px, 2.5vw, 33px);
+
+    line-height: 1.08;
+
+    margin-bottom: 5px;
+
+  }
+
+
+
+  .welcome-content > p {
+
+    font-size: 14px;
+
+    line-height: 1.32;
+
+  }
+
+
+
+  .welcome-indicators {
+
+    margin-top: 7px;
+
+  }
+
+
+
+  .welcome-trust {
+
+    margin-top: 6px;
+
+  }
+
+
+
+  .welcome-footer {
+
+    padding-top: 5px;
+
+  }
+
+
+
+  .login-form-panel {
+
+    padding-top: 8px;
+
+    padding-bottom: 8px;
+
+  }
+
+
+
+  .login-logo {
+
+    height: 30px;
+
+    margin-bottom: 8px;
+
+  }
+
+
+
+  .login-logo img {
+
+    width: 175px;
+
+  }
+
+
+
+  .login-heading {
+
+    margin-bottom: 9px;
+
+  }
+
+
+
+  .login-heading > span {
+
+    margin-bottom: 4px;
+
+  }
+
+
+
+  .login-heading p {
+
+    margin-top: 4px;
+
+    font-size: 14px;
+
+    line-height: 1.25;
+
+  }
+
+
+
+  .field-label {
+
+    margin-bottom: 3px;
+
+    font-size: 14px;
+
+  }
+
+
+
+  .login-input {
+
+    height: 34px;
+
+  }
+
+
+
+  .login-input input {
+
+    font-size: 14px;
+
+  }
+
+
+
+  .password-heading {
+
+    margin-top: 7px;
+
+  }
+
+
+
+  .login-options {
+
+    margin: 7px 0 8px;
+
+  }
+
+
+
+  .login-submit {
+
+    height: 36px;
+
+    min-height: 36px;
+
+  }
+
+
+
+  .login-footer {
+
+    margin-top: 8px;
+
+    padding-top: 6px;
+
+    font-size: 12px;
+
+  }
+
+
+
+  .footer-links {
+
+    margin-top: 5px;
+
+    font-size: 12px;
+
+  }
+
+}
+
+
+
+
+
+/* =========================================
+
+   FIXED CRYSTREE HRM SITE FOOTER
+
+   Fixed logo/time slots prevent shifting when the clock updates.
+
+   ========================================= */
+
+
+
+.site-footer {
+
+  position: fixed;
+
+  inset: auto 0 0;
+
+  z-index: 1000;
+
+  display: grid;
+
+  grid-template-columns: minmax(0, 1fr) auto;
+
+  align-items: center;
+
+  column-gap: 24px;
+
+  width: 100%;
+
+  min-height: var(--login-footer-height);
+
+  padding: 8px clamp(16px, 2vw, 32px);
+
+  border-top: 1px solid #e1e5ea;
+
+  background: #fbfcfd;
+
+  box-shadow: 0 -3px 12px rgba(7, 28, 44, 0.04);
+
+  color: #718096;
+
+  font-family: "DM Sans", Arial, sans-serif;
+
+  font-size: 14px;
+
+  line-height: 1.4;
+
+}
+
+
+
+.site-footer-copyright {
+
+  display: flex;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 4px;
+
+  min-width: 0;
+
+}
+
+
+
+.site-footer-copyright strong {
+
+  color: #17263a;
+
+  font-weight: 700;
+
+}
+
+
+
+.copyright-separator {
+
+  margin-inline: 3px;
+
+}
+
+
+
+.site-footer-details {
+
+  display: flex;
+
+  flex: 0 0 auto;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  flex-wrap: nowrap;
+
+  gap: 12px;
+
+  min-width: 0;
+
+  white-space: nowrap;
+
+}
+
+
+
+.site-footer-developer {
+
+  display: flex;
+
+  flex: 0 0 auto;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  white-space: nowrap;
+
+}
+
+
+
+.site-footer-developed-label {
+
+  flex: 0 0 auto;
+
+}
+
+
+
+.site-footer-logo-link {
+
+  display: flex;
+
+  flex: 0 0 130px;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 130px;
+
+  min-width: 130px;
+
+  height: 36px;
+
+  overflow: hidden;
+
+  text-decoration: none;
+
+}
+
+
+
+.site-footer-logo-link img {
+
+  display: block;
+
+  flex: 0 0 130px;
+
+  width: 130px;
+
+  min-width: 130px;
+
+  max-width: none;
+
+  height: 36px;
+
+  object-fit: contain;
+
+  object-position: center;
+
+}
+
+
+
+.site-footer-divider {
+
+  display: block;
+
+  flex: 0 0 1px;
+
+  width: 1px;
+
+  height: 20px;
+
+  background: #d6dce3;
+
+}
+
+
+
+.site-footer-time {
+
+  display: inline-block;
+
+  flex: 0 0 104px;
+
+  width: 104px;
+
+  text-align: center;
+
+  white-space: nowrap;
+
+  font-variant-numeric: tabular-nums;
+
+}
+
+
+
+.site-footer-date {
+
+  display: inline-block;
+
+  flex: 0 0 94px;
+
+  width: 94px;
+
+  text-align: center;
+
+  white-space: nowrap;
+
+  font-variant-numeric: tabular-nums;
+
+}
+
+
+
+.site-footer-version {
+
+  display: inline-block;
+
+  flex: 0 0 30px;
+
+  width: 30px;
+
+  text-align: right;
+
+  white-space: nowrap;
+
+  font-variant-numeric: tabular-nums;
+
+}
+
+
+
+/* Compact desktop and laptop screens */
+
+@media (max-width: 1250px) and (min-width: 821px) {
+
+  .site-footer {
+
+    column-gap: 12px;
+
+    padding-inline: 16px;
+
+    font-size: 12px;
+
+  }
+
+
+
+  .site-footer-details {
+
+    gap: 8px;
+
+  }
+
+
+
+  .site-footer-logo-link,
+
+  .site-footer-logo-link img {
+
+    flex-basis: 112px;
+
+    width: 112px;
+
+    min-width: 112px;
+
+  }
+
+
+
+  .site-footer-logo-link {
+
+    height: 32px;
+
+  }
+
+
+
+  .site-footer-logo-link img {
+
+    height: 30px;
+
+  }
+
+
+
+  .site-footer-time {
+
+    flex-basis: 98px;
+
+    width: 98px;
+
+  }
+
+
+
+  .site-footer-date {
+
+    flex-basis: 88px;
+
+    width: 88px;
+
+  }
+
+}
+
+
+
+/* Tablet and mobile: two stable footer rows */
+
+@media (max-width: 820px) {
+
+  :root {
+
+    --login-footer-height: 82px;
+
+  }
+
+
+
+  .site-footer {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 5px;
+
+    padding: 7px 12px;
+
+    text-align: center;
+
+  }
+
+
+
+  .site-footer-copyright {
+
+    justify-content: center;
+
+    flex-wrap: nowrap;
+
+    font-size: 14px;
+
+    line-height: 1.3;
+
+  }
+
+
+
+  .site-footer-details {
+
+    justify-content: center;
+
+    gap: 8px;
+
+    font-size: 12px;
+
+  }
+
+
+
+  .site-footer-developer {
+
+    gap: 5px;
+
+  }
+
+
+
+  .site-footer-logo-link,
+
+  .site-footer-logo-link img {
+
+    flex-basis: 88px;
+
+    width: 88px;
+
+    min-width: 88px;
+
+  }
+
+
+
+  .site-footer-logo-link {
+
+    height: 25px;
+
+  }
+
+
+
+  .site-footer-logo-link img {
+
+    height: 24px;
+
+  }
+
+
+
+  .site-footer-time {
+
+    flex-basis: 96px;
+
+    width: 96px;
+
+  }
+
+
+
+  .site-footer-date {
+
+    flex-basis: 82px;
+
+    width: 82px;
+
+  }
+
+
+
+  .site-footer-divider {
+
+    height: 14px;
+
+  }
+
+}
+
+
+
+/* Narrow mobile screens */
+
+@media (max-width: 430px) {
+
+  :root {
+
+    --login-footer-height: 96px;
+
+  }
+
+
+
+  .site-footer {
+
+    gap: 6px;
+
+    padding: 8px 8px;
+
+  }
+
+
+
+  .site-footer-copyright {
+
+    max-width: 100%;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 3px;
+
+    font-size: 12px;
+
+    line-height: 1.25;
+
+  }
+
+
+
+  .site-footer-details {
+
+    gap: 5px;
+
+    font-size: 11px;
+
+  }
+
+
+
+  .site-footer-developed-label {
+
+    display: none;
+
+  }
+
+
+
+  .site-footer-logo-link,
+
+  .site-footer-logo-link img {
+
+    flex-basis: 72px;
+
+    width: 72px;
+
+    min-width: 72px;
+
+  }
+
+
+
+  .site-footer-logo-link {
+
+    height: 23px;
+
+  }
+
+
+
+  .site-footer-logo-link img {
+
+    height: 22px;
+
+  }
+
+
+
+  .site-footer-time {
+
+    flex-basis: 90px;
+
+    width: 90px;
+
+  }
+
+
+
+  .site-footer-date {
+
+    flex-basis: 76px;
+
+    width: 76px;
+
+  }
+
+
+
+  .site-footer-version {
+
+    flex-basis: 25px;
+
+    width: 25px;
+
+  }
+
+}
+
+
+
+/* Final responsive layout overrides */
+
+@media (min-width: 821px) and (max-height: 650px) {
+
+  .login-page {
+
+    height: calc(100svh - var(--login-footer-height));
+
+    min-height: 0;
+
+    overflow: hidden;
+
+  }
+
+
+
+  .login-welcome,
+
+  .login-form-panel {
+
+    min-height: 0;
+
+  }
+
+
+
+  .login-welcome {
+
+    padding-top: 12px;
+
+    padding-bottom: 10px;
+
+  }
+
+
+
+  .hr-illustration {
+
+    height: clamp(110px, 22vh, 145px);
+
+    margin-top: 5px;
+
+    margin-bottom: 0;
+
+  }
+
+
+
+  .welcome-content {
+
+    padding-bottom: 5px;
+
+  }
+
+
+
+  .welcome-content h1 {
+
+    font-size: clamp(25px, 2.5vw, 33px);
+
+    line-height: 1.08;
+
+    margin-bottom: 5px;
+
+  }
+
+
+
+  .welcome-content > p {
+
+    font-size: 14px;
+
+    line-height: 1.32;
+
+  }
+
+
+
+  .welcome-indicators {
+
+    margin-top: 7px;
+
+  }
+
+
+
+  .welcome-trust {
+
+    margin-top: 6px;
+
+  }
+
+
+
+  .welcome-footer {
+
+    padding-top: 5px;
+
+  }
+
+
+
+  .login-form-panel {
+
+    padding-top: 8px;
+
+    padding-bottom: 8px;
+
+  }
+
+
+
+  .login-logo {
+
+    height: 30px;
+
+    margin-bottom: 8px;
+
+  }
+
+
+
+  .login-logo img {
+
+    width: 175px;
+
+  }
+
+
+
+  .login-heading {
+
+    margin-bottom: 9px;
+
+  }
+
+
+
+  .login-heading > span {
+
+    margin-bottom: 4px;
+
+  }
+
+
+
+  .login-heading p {
+
+    margin-top: 4px;
+
+    font-size: 14px;
+
+    line-height: 1.25;
+
+  }
+
+
+
+  .field-label {
+
+    margin-bottom: 3px;
+
+    font-size: 14px;
+
+  }
+
+
+
+  .login-input {
+
+    height: 36px;
+
+  }
+
+
+
+  .login-input input {
+
+    font-size: 14px;
+
+  }
+
+
+
+  .password-heading {
+
+    margin-top: 7px;
+
+  }
+
+
+
+  .login-options {
+
+    margin: 7px 0 8px;
+
+  }
+
+
+
+  .login-submit {
+
+    height: 38px;
+
+    min-height: 38px;
+
+  }
+
+
+
+  .login-footer {
+
+    margin-top: 8px;
+
+    padding-top: 6px;
+
+    font-size: 12px;
+
+  }
+
+
+
+  .footer-links {
+
+    margin-top: 5px;
+
+    font-size: 12px;
+
+  }
+
+}
+
+
+
+@media (min-width: 821px) and (min-height: 651px) {
+
+  .login-form-panel {
+
+    padding-top: clamp(22px, 4vh, 42px);
+
+    padding-bottom: clamp(22px, 4vh, 42px);
+
+  }
+
+
+
+  .login-container {
+
+    max-width: 430px;
+
+  }
+
+}
+
+
+
+@media (max-width: 820px) {
+
+  .login-page {
+
+    display: flex;
+
+    flex-direction: column;
+
+    width: 100%;
+
+    height: auto;
+
+    min-height: 100svh;
+
+    padding-bottom: var(--login-footer-height);
+
+    overflow: visible;
+
+  }
+
+
+
+  .login-welcome {
+
+    width: 100%;
+
+    min-height: 0;
+
+    padding: 22px clamp(20px, 5vw, 40px) 20px;
+
+  }
+
+
+
+  .welcome-content {
+
+    margin-top: 0;
+
+    padding-bottom: 0;
+
+  }
+
+
+
+  .hr-illustration {
+
+    width: min(100%, 420px);
+
+    height: clamp(150px, 28vw, 220px);
+
+    margin: 12px auto 14px;
+
+  }
+
+
+
+  .welcome-content h1 {
+
+    font-size: clamp(28px, 5vw, 40px);
+
+    line-height: 1.14;
+
+  }
+
+
+
+  .welcome-content > p {
+
+    max-width: 560px;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+  }
+
+
+
+  .login-form-panel {
+
+    width: 100%;
+
+    min-height: 0;
+
+    padding: 28px clamp(20px, 5vw, 40px) 32px;
+
+  }
+
+
+
+  .login-container {
+
+    width: 100%;
+
+    max-width: 460px;
+
+    margin: 0 auto;
+
+  }
+
+
+
+  .login-logo {
+
+    height: 52px;
+
+    margin-bottom: 22px;
+
+  }
+
+
+
+  .login-logo img {
+
+    width: min(210px, 75%);
+
+  }
+
+
+
+  .login-heading h2 {
+
+    font-size: clamp(24px, 4vw, 30px);
+
+  }
+
+
+
+  .login-input {
+
+    height: 46px;
+
+  }
+
+
+
+  .login-submit {
+
+    height: 46px;
+
+    min-height: 46px;
+
+  }
+
+}
+
+
+
+@media (max-width: 430px) {
+
+  .login-welcome {
+
+    padding: 18px 18px 20px;
+
+  }
+
+
+
+  .welcome-brand {
+
+    gap: 9px;
+
+    font-size: 10px;
+
+    letter-spacing: 1.5px;
+
+  }
+
+
+
+  .brand-symbol i {
+
+    width: 4px;
+
+    height: 19px;
+
+  }
+
+
+
+  .brand-symbol i:nth-child(2) {
+
+    height: 14px;
+
+  }
+
+
+
+  .brand-symbol i:nth-child(3) {
+
+    height: 10px;
+
+  }
+
+
+
+  .hr-illustration {
+
+    height: 155px;
+
+    margin-top: 8px;
+
+    margin-bottom: 12px;
+
+  }
+
+
+
+  .attendance-card,
+
+  .people-card {
+
+    gap: 6px;
+
+    padding: 7px 8px;
+
+    border-radius: 8px;
+
+  }
+
+
+
+  .attendance-card b,
+
+  .people-card b {
+
+    font-size: 10px;
+
+  }
+
+
+
+  .attendance-card small,
+
+  .people-card small {
+
+    font-size: 8px;
+
+  }
+
+
+
+  .calendar-card {
+
+    right: 1%;
+
+    width: 48px;
+
+    height: 55px;
+
+  }
+
+
+
+  .calendar-card span {
+
+    font-size: 9px;
+
+  }
+
+
+
+  .calendar-card b {
+
+    font-size: 19px;
+
+  }
+
+
+
+  .welcome-content h1 {
+
+    font-size: clamp(27px, 7.2vw, 31px);
+
+    letter-spacing: -0.7px;
+
+  }
+
+
+
+  .welcome-eyebrow {
+
+    font-size: 9px;
+
+    letter-spacing: 1.5px;
+
+  }
+
+
+
+  .welcome-trust {
+
+    align-items: flex-start;
+
+    font-size: 12px;
+
+  }
+
+
+
+  .login-form-panel {
+
+    padding: 24px 18px 28px;
+
+  }
+
+
+
+  .login-logo {
+
+    height: 46px;
+
+    margin-bottom: 18px;
+
+  }
+
+
+
+  .login-heading {
+
+    margin-bottom: 20px;
+
+  }
+
+
+
+  .login-heading h2 {
+
+    font-size: 24px;
+
+  }
+
+
+
+  .login-heading p,
+
+  .field-label,
+
+  .login-input input,
+
+  .login-submit {
+
+    font-size: 14px;
+
+  }
+
+
+
+  .login-options {
+
+    align-items: center;
+
+    gap: 8px;
+
+  }
+
+
+
+  .site-footer {
+
+    gap: 5px;
+
+    padding: 7px 8px;
+
+  }
+
+
+
+  .site-footer-copyright {
+
+    max-width: 100%;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    font-size: 11px;
+
+    line-height: 1.25;
+
+  }
+
+
+
+  .site-footer-details {
+
+    max-width: 100%;
+
+    flex-wrap: nowrap;
+
+    gap: 5px;
+
+    font-size: 10px;
+
+  }
+
+
+
+  .site-footer-developed-label {
+
+    display: none;
+
+  }
+
+
+
+  .site-footer-logo-link,
+
+  .site-footer-logo-link img {
+
+    flex-basis: 64px;
+
+    width: 64px;
+
+    min-width: 64px;
+
+  }
+
+
+
+  .site-footer-logo-link {
+
+    height: 22px;
+
+  }
+
+
+
+  .site-footer-logo-link img {
+
+    height: 21px;
+
+  }
+
+
+
+  .site-footer-time {
+
+    flex-basis: 83px;
+
+    width: 83px;
+
+  }
+
+
+
+  .site-footer-date {
+
+    flex-basis: 73px;
+
+    width: 73px;
+
+  }
+
+
+
+  .site-footer-version {
+
+    flex-basis: 24px;
+
+    width: 24px;
+
+  }
+
+}
+
+
+
+@media (max-width: 820px) and (max-height: 520px) {
+
+  .login-welcome {
+
+    padding-top: 12px;
+
+    padding-bottom: 12px;
+
+  }
+
+
+
+  .hr-illustration {
+
+    height: 110px;
+
+    margin-top: 6px;
+
+    margin-bottom: 6px;
+
+  }
+
+
+
+  .welcome-content h1 {
+
+    font-size: 26px;
+
+  }
+
+
+
+  .login-form-panel {
+
+    padding-top: 18px;
+
+    padding-bottom: 18px;
+
+  }
+
+}
+
+
+
+
+
+/* ==========================================
+
+   CRYSTREE HRM - LEFT PANEL RESPONSIVENESS
+
+   Laptop, desktop, tablet and mobile
+
+   ========================================== */
+
+
+
+.login-page .login-welcome {
+
+  min-width: 0;
+
+  box-sizing: border-box;
+
+}
+
+
+
+.login-page .hr-illustration {
+
+  flex-shrink: 1;
+
+  min-height: 0;
+
+}
+
+
+
+/* Short laptop screens */
+
+@media (min-width: 821px) and (max-height: 700px) {
+
+  .login-page .login-welcome {
+
+    padding: 14px clamp(24px, 3.5vw, 48px) 12px !important;
+
+  }
+
+
+
+  .login-page .hr-illustration {
+
+    width: min(100%, 390px) !important;
+
+    height: clamp(90px, 18vh, 125px) !important;
+
+    margin: 8px auto 10px !important;
+
+  }
+
+
+
+  .login-page .dashboard-illustration {
+
+    height: 226px;
+
+  }
+
+
+
+  .login-page .attendance-card,
+
+  .login-page .people-card {
+
+    padding: 7px 9px;
+
+  }
+
+
+
+  .login-page .calendar-card {
+
+    width: 54px;
+
+    height: 60px;
+
+  }
+
+
+
+  .login-page .welcome-content {
+
+    margin-top: auto !important;
+
+    padding-bottom: 8px !important;
+
+  }
+
+
+
+  .login-page .welcome-eyebrow {
+
+    margin-bottom: 6px;
+
+    font-size: 10px;
+
+  }
+
+
+
+  .login-page .welcome-content h1 {
+
+    margin-bottom: 7px;
+
+    font-size: clamp(25px, 2.5vw, 34px);
+
+    line-height: 1.1;
+
+    letter-spacing: -0.8px;
+
+  }
+
+
+
+  .login-page .welcome-content > p {
+
+    max-width: 420px;
+
+    font-size: 14px;
+
+    line-height: 1.35;
+
+  }
+
+
+
+  .login-page .welcome-indicators {
+
+    margin-top: 8px;
+
+  }
+
+
+
+  .login-page .welcome-trust {
+
+    margin-top: 7px;
+
+    font-size: 12px;
+
+  }
+
+
+
+  .login-page .welcome-footer {
+
+    padding-top: 6px;
+
+    font-size: 12px;
+
+  }
+
+}
+
+
+
+/* Standard desktop */
+
+@media (min-width: 821px) and (min-height: 701px) {
+
+  .login-page .hr-illustration {
+
+    width: min(100%, 440px);
+
+  }
+
+
+
+  .login-page .welcome-content h1 {
+
+    font-size: clamp(30px, 3vw, 46px);
+
+  }
+
+}
+
+
+
+/* Tablet */
+
+@media (max-width: 820px) {
+
+  .login-page .login-welcome {
+
+    padding: 22px 24px 20px !important;
+
+  }
+
+
+
+  .login-page .hr-illustration {
+
+    width: min(100%, 400px) !important;
+
+    height: clamp(145px, 25vw, 210px) !important;
+
+    margin: 10px auto 16px !important;
+
+  }
+
+
+
+  .login-page .welcome-content {
+
+    margin-top: 0 !important;
+
+    padding-bottom: 0 !important;
+
+  }
+
+
+
+  .login-page .welcome-content h1 {
+
+    font-size: clamp(28px, 5vw, 40px);
+
+    line-height: 1.15;
+
+  }
+
+
+
+  .login-page .welcome-content > p {
+
+    max-width: 560px;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+  }
+
+}
+
+
+
+/* Small mobile */
+
+@media (max-width: 430px) {
+
+  .login-page .login-welcome {
+
+    padding: 18px 18px 20px !important;
+
+  }
+
+
+
+  .login-page .hr-illustration {
+
+    height: 145px !important;
+
+    margin: 8px auto 12px !important;
+
+  }
+
+
+
+  .login-page .welcome-content h1 {
+
+    font-size: 28px;
+
+    letter-spacing: -0.6px;
+
+  }
+
+
+
+  .login-page .welcome-content > p {
+
+    font-size: 14px;
+
+  }
+
 }
 
 
 /* =========================================================
-   CRYSTREE HRM TYPOGRAPHY STANDARD
-   Keep DM Sans / Manrope and the existing navy-gold identity.
-   Paragraphs and normal content text never fall below 14px.
+   FINAL COMPACT RESPONSIVE LOGIN OVERRIDES
+   More breathing room on short laptops and smaller typography
+   on tablet/mobile without changing the existing design.
    ========================================================= */
 
-.login-page {
-  font-family: "DM Sans", Arial, sans-serif;
-}
+@media (min-width: 821px) and (max-height: 700px) {
+  .login-page {
+    --login-footer-height: 52px;
+  }
 
-.login-page p {
-  font-size: 10px;
-}
+  .login-welcome {
+    padding: 12px clamp(22px, 3vw, 42px) 10px !important;
+  }
 
-.login-heading p,
-.welcome-content > p {
-  font-size: 14px;
-  line-height: 1.45;
-}
-
-.field-label {
-  font-size: 14px;
-  line-height: 1.35;
-}
-
-.login-input input,
-.login-submit {
-  font-size: 14px;
-}
-
-.login-footer {
-  font-size: 12px;
-  line-height: 1.45;
-}
-
-.footer-links {
-  font-size: 12px;
-}
-
-/* Fit the 551px-high team laptop while retaining readable paragraph text. */
-@media (min-width: 821px) and (max-height: 650px) {
   .hr-illustration {
-    height: clamp(112px, 22vh, 145px);
-    margin-top: 5px;
-    margin-bottom: 0;
+    height: clamp(90px, 17vh, 118px) !important;
+    margin: 5px auto 6px !important;
   }
 
   .welcome-content {
-    padding-bottom: 5px;
+    padding-bottom: 4px !important;
+  }
+
+  .welcome-eyebrow {
+    margin-bottom: 5px !important;
+    font-size: 9px !important;
+    letter-spacing: 1.4px !important;
   }
 
   .welcome-content h1 {
-    font-size: clamp(25px, 2.5vw, 33px);
-    line-height: 1.08;
-    margin-bottom: 5px;
+    margin-bottom: 5px !important;
+    font-size: clamp(23px, 2.1vw, 29px) !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.6px !important;
   }
 
   .welcome-content > p {
-    font-size: 14px;
-    line-height: 1.32;
-  }
-
-  .welcome-indicators {
-    margin-top: 7px;
+    max-width: 390px;
+    font-size: 12px !important;
+    line-height: 1.35 !important;
   }
 
   .welcome-trust {
-    margin-top: 6px;
-  }
-
-  .welcome-footer {
-    padding-top: 5px;
+    gap: 6px;
+    margin-top: 6px !important;
+    font-size: 10px !important;
   }
 
   .login-form-panel {
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding: 8px clamp(22px, 3vw, 42px) !important;
+  }
+
+  .login-container {
+    max-width: 370px !important;
   }
 
   .login-logo {
-    height: 30px;
-    margin-bottom: 8px;
+    height: 28px !important;
+    margin-bottom: 8px !important;
   }
 
   .login-logo img {
-    width: 175px;
+    width: 155px !important;
   }
 
   .login-heading {
-    margin-bottom: 9px;
+    margin-bottom: 9px !important;
   }
 
   .login-heading > span {
-    margin-bottom: 4px;
+    margin-bottom: 4px !important;
+    font-size: 9px !important;
+    letter-spacing: 1.5px !important;
+  }
+
+  .login-heading h2 {
+    font-size: clamp(19px, 1.7vw, 23px) !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.4px !important;
   }
 
   .login-heading p {
-    margin-top: 4px;
-    font-size: 14px;
-    line-height: 1.25;
+    margin-top: 4px !important;
+    font-size: 12px !important;
+  }
+
+  .field-label,
+  .login-input input {
+    font-size: 12px !important;
   }
 
   .field-label {
-    margin-bottom: 3px;
-    font-size: 14px;
+    margin-bottom: 4px !important;
   }
 
   .login-input {
-    height: 34px;
-  }
-
-  .login-input input {
-    font-size: 14px;
+    height: 35px !important;
+    margin-bottom: 7px !important;
+    padding-inline: 9px !important;
+    gap: 8px !important;
   }
 
   .password-heading {
-    margin-top: 7px;
+    margin-top: 7px !important;
+  }
+
+  .forgot-password {
+    font-size: 10px !important;
   }
 
   .login-options {
-    margin: 7px 0 8px;
+    margin: 7px 0 9px !important;
+  }
+
+  .remember-label,
+  .secure-label {
+    font-size: 10px !important;
+  }
+
+  .remember-label input {
+    width: 13px !important;
+    height: 13px !important;
   }
 
   .login-submit {
-    height: 36px;
-    min-height: 36px;
+    height: 37px !important;
+    min-height: 37px !important;
+    font-size: 12px !important;
   }
 
   .login-footer {
-    margin-top: 8px;
-    padding-top: 6px;
-    font-size: 12px;
+    margin-top: 9px !important;
+    padding-top: 7px !important;
+    font-size: 10px !important;
   }
 
   .footer-links {
-    margin-top: 5px;
-    font-size: 12px;
+    gap: 8px !important;
+    margin-top: 6px !important;
+    font-size: 10px !important;
   }
-}
 
-
-/* =========================================
-   FIXED CRYSTREE HRM SITE FOOTER
-   Fixed logo/time slots prevent shifting when the clock updates.
-   ========================================= */
-
-.site-footer {
-  position: fixed;
-  inset: auto 0 0;
-  z-index: 1000;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  column-gap: 24px;
-  width: 100%;
-  min-height: var(--login-footer-height);
-  padding: 8px clamp(16px, 2vw, 32px);
-  border-top: 1px solid #e1e5ea;
-  background: #fbfcfd;
-  box-shadow: 0 -3px 12px rgba(7, 28, 44, 0.04);
-  color: #718096;
-  font-family: "DM Sans", Arial, sans-serif;
-  font-size: 14px;
-  line-height: 1.4;
-}
-
-.site-footer-copyright {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 4px;
-  min-width: 0;
-}
-
-.site-footer-copyright strong {
-  color: #17263a;
-  font-weight: 700;
-}
-
-.copyright-separator {
-  margin-inline: 3px;
-}
-
-.site-footer-details {
-  display: flex;
-  flex: 0 0 auto;
-  align-items: center;
-  justify-content: flex-end;
-  flex-wrap: nowrap;
-  gap: 12px;
-  min-width: 0;
-  white-space: nowrap;
-}
-
-.site-footer-developer {
-  display: flex;
-  flex: 0 0 auto;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  white-space: nowrap;
-}
-
-.site-footer-developed-label {
-  flex: 0 0 auto;
-}
-
-.site-footer-logo-link {
-  display: flex;
-  flex: 0 0 130px;
-  align-items: center;
-  justify-content: center;
-  width: 130px;
-  min-width: 130px;
-  height: 36px;
-  overflow: hidden;
-  text-decoration: none;
-}
-
-.site-footer-logo-link img {
-      object-fit: contain;
-    width: auto;
-    height: 36px;
-    display: block;
-}
-
-.site-footer-divider {
-  display: block;
-  flex: 0 0 1px;
-  width: 1px;
-  height: 20px;
-  background: #d6dce3;
-}
-
-.site-footer-time {
-  display: inline-block;
-  flex: 0 0 104px;
-  width: 104px;
-  text-align: center;
-  white-space: nowrap;
-  font-variant-numeric: tabular-nums;
-}
-
-.site-footer-date {
-  display: inline-block;
-  flex: 0 0 94px;
-  width: 94px;
-  text-align: center;
-  white-space: nowrap;
-  font-variant-numeric: tabular-nums;
-}
-
-.site-footer-version {
-  display: inline-block;
-  flex: 0 0 30px;
-  width: 30px;
-  text-align: right;
-  white-space: nowrap;
-  font-variant-numeric: tabular-nums;
-}
-
-/* Compact desktop and laptop screens */
-@media (max-width: 1250px) and (min-width: 821px) {
   .site-footer {
-    column-gap: 12px;
-    padding-inline: 16px;
-    font-size: 12px;
-  }
-
-  .site-footer-details {
-    gap: 8px;
+    min-height: var(--login-footer-height) !important;
+    font-size: 10px !important;
   }
 
   .site-footer-logo-link,
   .site-footer-logo-link img {
-    flex-basis: 112px;
-    width: 112px;
-    min-width: 112px;
+    flex-basis: 88px !important;
+    width: 88px !important;
+    min-width: 88px !important;
   }
 
-  .site-footer-logo-link {
-    height: 32px;
+  .site-footer-logo-link { height: 25px !important; }
+  .site-footer-logo-link img { height: 23px !important; }
+  .site-footer-time { flex-basis: 85px !important; width: 85px !important; }
+  .site-footer-date { flex-basis: 75px !important; width: 75px !important; }
+}
+
+@media (min-width: 821px) and (min-height: 701px) {
+  .welcome-content h1 {
+    font-size: clamp(27px, 2.5vw, 40px);
   }
 
-  .site-footer-logo-link img {
-    height: 30px;
+  .login-container {
+    max-width: 390px;
   }
 
-  .site-footer-time {
-    flex-basis: 98px;
-    width: 98px;
-  }
-
-  .site-footer-date {
-    flex-basis: 88px;
-    width: 88px;
+  .login-heading h2 {
+    font-size: clamp(21px, 1.9vw, 27px);
   }
 }
 
-/* Tablet and mobile: two stable footer rows */
+/* Tablet and mobile: compact welcome panel and readable form */
 @media (max-width: 820px) {
-  :root {
-    --login-footer-height: 82px;
+  .login-page {
+    min-height: 100svh !important;
+    height: auto !important;
+    overflow: visible !important;
   }
 
-  .site-footer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    padding: 7px 12px;
-    text-align: center;
+  .login-welcome {
+    padding: 18px clamp(18px, 5vw, 32px) 18px !important;
+  }
+
+  .welcome-brand {
+    font-size: 10px !important;
+    letter-spacing: 1.4px !important;
+  }
+
+  .hr-illustration {
+    width: min(100%, 340px) !important;
+    height: clamp(110px, 24vw, 170px) !important;
+    margin: 8px auto 10px !important;
+  }
+
+  .attendance-card,
+  .people-card {
+    gap: 6px !important;
+    padding: 6px 8px !important;
+  }
+
+  .attendance-card b,
+  .people-card b {
+    font-size: 10px !important;
+  }
+
+  .attendance-card small,
+  .people-card small {
+    font-size: 8px !important;
+  }
+
+  .calendar-card {
+    width: 46px !important;
+    height: 52px !important;
+  }
+
+  .calendar-card span { font-size: 9px !important; }
+  .calendar-card b { font-size: 18px !important; }
+
+  .welcome-content {
+    margin-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .welcome-eyebrow {
+    margin-bottom: 6px !important;
+    font-size: 9px !important;
+    letter-spacing: 1.3px !important;
+  }
+
+  .welcome-content h1 {
+    margin-bottom: 6px !important;
+    font-size: clamp(24px, 4.8vw, 32px) !important;
+    line-height: 1.12 !important;
+    letter-spacing: -0.5px !important;
+  }
+
+  .welcome-content > p {
+    font-size: 12px !important;
+    line-height: 1.4 !important;
+  }
+
+  .welcome-trust {
+    margin-top: 8px !important;
+    font-size: 11px !important;
+  }
+
+  .login-form-panel {
+    min-height: 0 !important;
+    padding: 22px clamp(18px, 5vw, 32px) 26px !important;
+  }
+
+  .login-container {
+    width: 100% !important;
+    max-width: 420px !important;
+    margin: 0 auto !important;
+  }
+
+  .login-logo {
+    height: 40px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .login-logo img {
+    width: min(175px, 70%) !important;
+  }
+
+  .login-heading {
+    margin-bottom: 16px !important;
+  }
+
+  .login-heading > span {
+    margin-bottom: 5px !important;
+    font-size: 9px !important;
+  }
+
+  .login-heading h2 {
+    font-size: clamp(20px, 4vw, 25px) !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.4px !important;
+  }
+
+  .login-heading p {
+    margin-top: 5px !important;
+    font-size: 12px !important;
+  }
+
+  .field-label {
+    margin-bottom: 5px !important;
+    font-size: 12px !important;
+  }
+
+  .login-input {
+    height: 42px !important;
+    margin-bottom: 8px !important;
+    padding-inline: 10px !important;
+    gap: 8px !important;
+  }
+
+  .login-input input { font-size: 13px !important; }
+
+  .password-heading { margin-top: 10px !important; }
+  .forgot-password { font-size: 11px !important; }
+
+  .login-options {
+    margin: 10px 0 12px !important;
+    gap: 8px !important;
+  }
+
+  .remember-label { font-size: 11px !important; }
+  .secure-label { font-size: 10px !important; }
+
+  .login-submit {
+    min-height: 42px !important;
+    height: 42px !important;
+    font-size: 12px !important;
+  }
+
+  .login-footer {
+    margin-top: 15px !important;
+    padding-top: 10px !important;
+    font-size: 11px !important;
+  }
+
+  .footer-links {
+    gap: 9px !important;
+    margin-top: 8px !important;
+    font-size: 10px !important;
   }
 
   .site-footer-copyright {
-    justify-content: center;
-    flex-wrap: nowrap;
-    font-size: 14px;
-    line-height: 1.3;
+    font-size: 10px !important;
   }
 
   .site-footer-details {
-    justify-content: center;
-    gap: 8px;
-    font-size: 12px;
-  }
-
-  .site-footer-developer {
-    gap: 5px;
-  }
-
-  .site-footer-logo-link,
-  .site-footer-logo-link img {
-    flex-basis: 88px;
-    width: 88px;
-    min-width: 88px;
-  }
-
-  .site-footer-logo-link {
-    height: 25px;
-  }
-
-  .site-footer-logo-link img {
-    height: 24px;
-  }
-
-  .site-footer-time {
-    flex-basis: 96px;
-    width: 96px;
-  }
-
-  .site-footer-date {
-    flex-basis: 82px;
-    width: 82px;
-  }
-
-  .site-footer-divider {
-    height: 14px;
+    font-size: 10px !important;
   }
 }
 
-/* Narrow mobile screens */
+/* Small phones */
 @media (max-width: 430px) {
-  :root {
-    --login-footer-height: 96px;
+  .login-welcome {
+    padding: 16px 16px 17px !important;
   }
 
-  .site-footer {
-    gap: 6px;
-    padding: 8px 8px;
+  .hr-illustration {
+    height: 105px !important;
+    margin: 6px auto 8px !important;
   }
 
-  .site-footer-copyright {
-    max-width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 3px;
-    font-size: 12px;
-    line-height: 1.25;
+  .welcome-content h1 {
+    font-size: 24px !important;
+  }
+
+  .welcome-content > p {
+    font-size: 12px !important;
+  }
+
+  .login-form-panel {
+    padding: 20px 17px 24px !important;
+  }
+
+  .login-heading h2 {
+    font-size: 21px !important;
+  }
+
+  .login-input {
+    height: 42px !important;
   }
 
   .site-footer-details {
-    gap: 5px;
-    font-size: 11px;
-  }
-
-  .site-footer-developed-label {
-    display: none;
-  }
-
-  .site-footer-logo-link,
-  .site-footer-logo-link img {
-    flex-basis: 72px;
-    width: 72px;
-    min-width: 72px;
-  }
-
-  .site-footer-logo-link {
-    height: 23px;
-  }
-
-  .site-footer-logo-link img {
-    height: 22px;
+    gap: 4px !important;
   }
 
   .site-footer-time {
-    flex-basis: 90px;
-    width: 90px;
+    flex-basis: 76px !important;
+    width: 76px !important;
   }
 
   .site-footer-date {
-    flex-basis: 76px;
-    width: 76px;
+    flex-basis: 68px !important;
+    width: 68px !important;
+  }
+}
+
+
+/* FIX: Prevent HR illustration from overlapping text on mobile */
+@media (max-width: 430px) {
+  .login-page .hr-illustration,
+  .hr-illustration {
+    position: relative;
+    width: 100%;
+    height: 115px !important;
+    min-height: 115px;
+    margin: 8px auto 14px !important;
+    flex: 0 0 115px;
+    overflow: hidden;
   }
 
-  .site-footer-version {
-    flex-basis: 25px;
-    width: 25px;
+  .login-page .dashboard-illustration,
+  .dashboard-illustration {
+    top: 5 !important;
+    left: 50%;
+    width: 66% !important;
+    height: 100% !important;
+    max-height: 115px;
+    transform: translateX(-50%) rotate(-3deg);
+  }
+
+  .dashboard-content {
+    gap: 3%;
+    padding: 3%;
+  }
+
+  .employee-card {
+    grid-template-columns: 18px minmax(0, 1fr);
+    gap: 3px;
+    min-height: 30px;
+    padding: 3px;
+  }
+
+  .employee-avatar {
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+  }
+
+  .growth-chart {
+    height: 28px;
+    padding: 3px 5px;
+  }
+
+  .chart-bars {
+    height: 14px;
+    gap: 4px;
+    padding: 0 4px;
+  }
+
+  .login-page .attendance-card,
+  .login-page .people-card,
+  .attendance-card,
+  .people-card {
+    gap: 5px;
+    padding: 5px 7px;
+    border-radius: 7px;
+  }
+
+  .login-page .calendar-card,
+  .calendar-card {
+    width: 38px;
+    height: 45px;
+    gap: 2px;
+  }
+
+  .calendar-card span {
+    font-size: 8px;
+  }
+
+  .calendar-card b {
+    font-size: 17px;
+  }
+
+  .login-page .welcome-content h1,
+  .welcome-content h1 {
+    font-size: 25px !important;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    overflow-wrap: normal;
+  }
+
+  .login-page .welcome-content > p,
+  .welcome-content > p {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .login-page .welcome-content,
+  .welcome-content {
+    margin-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
+
+/* Extra-small phones */
+@media (max-width: 350px) {
+  .login-page .login-welcome,
+  .login-welcome {
+    padding: 16px 14px 18px !important;
+  }
+
+  .login-page .hr-illustration,
+  .hr-illustration {
+    height: 100px !important;
+    min-height: 100px;
+    flex-basis: 100px;
+  }
+
+  .login-page .welcome-content h1,
+  .welcome-content h1 {
+    font-size: 23px !important;
   }
 }
