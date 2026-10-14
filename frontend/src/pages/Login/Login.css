@@ -4116,3 +4116,92 @@
     font-size: 23px !important;
   }
 }
+
+/* Premium form refinements */
+.login-form-panel {
+  background:
+    radial-gradient(
+      ellipse at 50% 40%,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(247, 249, 252, 0.96) 100%
+    );
+}
+
+.login-container {
+  max-width: 440px;
+}
+
+.login-logo {
+  margin-bottom: clamp(20px, 3.5vh, 38px);
+}
+
+.login-heading h2 {
+  letter-spacing: -1px;
+}
+
+.login-input {
+  min-height: 48px;
+  border-radius: 9px;
+  border-color: #dce4ec;
+  box-shadow: 0 1px 2px rgba(7, 28, 44, 0.025);
+}
+
+.login-input:focus-within {
+  border-color: #c79b35;
+  box-shadow:
+    0 0 0 4px rgba(199, 155, 53, 0.12),
+    0 2px 8px rgba(7, 28, 44, 0.035);
+}
+
+.login-submit {
+  min-height: 50px;
+  border-radius: 9px;
+  background: linear-gradient(115deg, #071c2c, #193b54);
+  box-shadow: 0 8px 18px rgba(7, 28, 44, 0.13);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
+}
+
+.login-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: linear-gradient(115deg, #102e43, #234a64);
+  box-shadow: 0 12px 24px rgba(7, 28, 44, 0.17);
+}
+
+.login-submit:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.login-submit:focus-visible,
+.forgot-password:focus-visible,
+.password-toggle:focus-visible,
+.otp-back-button:focus-visible {
+  outline: 2px solid #c79b35;
+  outline-offset: 4px;
+}
+
+.login-message {
+  border-radius: 9px;
+  padding: 12px 14px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.login-footer {
+  border-color: #e6ebf0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-submit,
+  .login-input,
+  .otp-box {
+    transition: none;
+  }
+
+  .login-submit:hover:not(:disabled),
+  .otp-box:focus {
+    transform: none;
+  }
+}

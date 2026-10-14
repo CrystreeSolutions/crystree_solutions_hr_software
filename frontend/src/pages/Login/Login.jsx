@@ -13,7 +13,7 @@ import {
 import "./Login.css";
 import logo from "../../assets/crystree-solutions-logo.webp";
 
-function HrIllustration() {
+export function HrIllustration() {
   return (
     <div className="hr-illustration" aria-hidden="true">
       <div className="illustration-orbit illustration-orbit-one" />
