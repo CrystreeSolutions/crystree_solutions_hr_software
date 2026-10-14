@@ -14,6 +14,7 @@ import {
 import "../Login/Login.css";
 import "./ForgotPassword.css";
 import logo from "../../assets/crystree-solutions-logo.webp";
+import { HrIllustration } from "../Login/Login.jsx";
 
 const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api/auth`;
 
@@ -371,7 +372,7 @@ export default function ForgotPassword() {
   return (
     <main className="login-page">
       {/* LEFT PANEL */}
-        {/* <HrIllustration /> */}
+     
       <section className="login-welcome">
         <div className="welcome-brand">
           <span className="brand-symbol">
@@ -385,6 +386,8 @@ export default function ForgotPassword() {
             CRYSTREE <b>HRM</b>
           </span>
         </div>
+
+         <HrIllustration />
 
         <div className="welcome-content">
           <span className="welcome-eyebrow">
